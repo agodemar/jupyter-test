@@ -183,7 +183,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="k">import</span> <span class="n">HTML</span>
@@ -201,7 +201,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[1]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans:100,300,400,500,700,800,900,100italic,300italic,400italic,500italic,700italic,800italic,900italic' rel='stylesheet' type='text/css'>
@@ -376,7 +376,7 @@ div.text_cell_render{
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="o">%%</span><span class="nx">javascript</span>
@@ -399,10 +399,10 @@ div.text_cell_render{
 
 
 
-<div id="ee4a9d76-3966-43bf-b2c2-0e000f63d795"></div>
+<div id="b4b0989f-595f-422a-a93b-2ffbd84453ea"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#ee4a9d76-3966-43bf-b2c2-0e000f63d795');
+var element = $('#b4b0989f-595f-422a-a93b-2ffbd84453ea');
 require.config({
   paths: {
       pythonMarkdown: './style/nbextensions/usability/python-markdown/main'
@@ -429,7 +429,7 @@ require.config({
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="c1"># load libraries and set plot parameters↔</span>
@@ -488,7 +488,7 @@ require.config({
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">c_r</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span> <span class="n">c_t</span> <span class="o">=</span> <span class="mf">0.5</span>
@@ -512,7 +512,7 @@ require.config({
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">S</span> <span class="o">=</span> <span class="p">(</span><span class="n">c_r</span> <span class="o">+</span> <span class="n">c_t</span><span class="p">)</span><span class="o">*</span><span class="n">b</span><span class="o">/</span><span class="mi">2</span>
@@ -532,8 +532,8 @@ require.config({
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Taper ratio: 0.5
-Wing area: 5.85 m^2
-Aspect ratio: 10.4
+Wing area: 5.25 m^2
+Aspect ratio: 9.333333333333334
 </pre>
 </div>
 </div>
@@ -564,7 +564,7 @@ The taper ratio</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">A_c</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">c_t</span> <span class="o">-</span> <span class="n">c_r</span><span class="p">)</span><span class="o">/</span><span class="n">b</span><span class="p">;</span> <span class="n">B_c</span> <span class="o">=</span> <span class="n">c_r</span><span class="p">;</span>
@@ -581,7 +581,7 @@ The taper ratio</p>
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>A_c: -0.12820512820512822
+<pre>A_c: -0.14285714285714285
 B_c: 1.0 m
 </pre>
 </div>
@@ -613,7 +613,7 @@ A_c = \frac{2}{b} \left( c_{\mathrm{t}} - c_{\mathrm{r}} \right)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">y</span> <span class="o">=</span> <span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
@@ -633,8 +633,8 @@ A_c = \frac{2}{b} \left( c_{\mathrm{t}} - c_{\mathrm{r}} \right)
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>- 0.0641025641025641 y^{2} + 1.0 y
-5.85000000000000
+<pre>- 0.0714285714285714 y^{2} + 1.0 y
+5.25000000000000
 </pre>
 </div>
 </div>
@@ -645,7 +645,7 @@ A_c = \frac{2}{b} \left( c_{\mathrm{t}} - c_{\mathrm{r}} \right)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">display</span><span class="p">(</span>
@@ -670,7 +670,7 @@ A_c = \frac{2}{b} \left( c_{\mathrm{t}} - c_{\mathrm{r}} \right)
 
 
 <div class="output_latex output_subarea ">
-$$S = 2 \int_0^{3.9} \left(-0.12820512820512822y + 1.0\right)\,\text{d}y =2\left(- 0.0641025641025641 y^{2} + 1.0 y\right)\Bigr|_0^{3.9}=5.85\,\text{m}^2$$
+$$S = 2 \int_0^{3.5} \left(-0.14285714285714285y + 1.0\right)\,\text{d}y =2\left(- 0.0714285714285714 y^{2} + 1.0 y\right)\Bigr|_0^{3.5}=5.25\,\text{m}^2$$
 </div>
 
 </div>
@@ -681,7 +681,7 @@ $$S = 2 \int_0^{3.9} \left(-0.12820512820512822y + 1.0\right)\,\text{d}y =2\left
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">Latex</span><span class="p">(</span>
@@ -703,11 +703,11 @@ $$S = 2 \int_0^{3.9} \left(-0.12820512820512822y + 1.0\right)\,\text{d}y =2\left
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
 
 
 <div class="output_latex output_subarea output_execute_result">
-\begin{equation*}S = 2 \int_0^{3.9} \left(-0.12820512820512822y + 1.0\right)\,\text{d}y =2\left(- 0.0641025641025641 y^{2} + 1.0 y\right)\Bigr|_0^{3.9}=5.85\,\text{m}^2\end{equation*}
+\begin{equation*}S = 2 \int_0^{3.5} \left(-0.14285714285714285y + 1.0\right)\,\text{d}y =2\left(- 0.0714285714285714 y^{2} + 1.0 y\right)\Bigr|_0^{3.5}=5.25\,\text{m}^2\end{equation*}
 </div>
 
 </div>
