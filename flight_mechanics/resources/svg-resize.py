@@ -1,5 +1,6 @@
 # Resize SVG and add frame for printing in a given format.
 # Written by Ilya Zverev, licensed WTFPL.
+# https://github.com/Zverik/svg-resize
 
 import sys, os, argparse, re
 from lxml import etree
