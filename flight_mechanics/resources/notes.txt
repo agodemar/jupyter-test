@@ -1,0 +1,3 @@
+Resize Alpha-Zero-Lift svg image:
+
+> python svg-resize.py -x 240 -f Wing_Alpha_Zero_Lift.svg Wing_Alpha_Zero_Lift_WEB.svg
