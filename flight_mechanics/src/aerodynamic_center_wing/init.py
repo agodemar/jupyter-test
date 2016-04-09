@@ -355,8 +355,8 @@ def plot_interpolate_K1(var0_K1, data_K1, lam):
     help_line.set_dashes([8, 4]) 
     
     plt.title('Wing aerodynamic center --- effect of $\lambda$', fontsize=22)
-    plt.xlabel('$\lambda$', fontsize=22)
-    plt.ylabel('$K_1$', fontsize=22)
+    plt.xlabel('$\lambda$', fontsize=16)
+    plt.ylabel('$K_1$', fontsize=16)
     plt.axis([0, 1, 0.8, 1.6])
     # Moving spines
     ax = plt.gca()  # gca stands for 'get current axis'
@@ -396,7 +396,7 @@ def plot_interpolate_K2(var0_K2, var1_K2, var2_K2, data_K2, j_lambda,
         line.set_dashes([1000,1]) # HUUUUGE
         plt.annotate(r'$\mathrm{AR} = \,$'+r'{0}'.format(var1_K2[i_AR]),
                      xy=(var2_K2[idx_max_LambdaLE], slice_ij[idx_max_LambdaLE]), xycoords='data',
-                     xytext=(40, 0), textcoords='offset points', fontsize=22,
+                     xytext=(40, 0), textcoords='offset points', fontsize=16,
                      arrowprops=dict(arrowstyle="->")) # , connectionstyle="arc3,rad=.5"
 
     # interpolated data
@@ -407,7 +407,7 @@ def plot_interpolate_K2(var0_K2, var1_K2, var2_K2, data_K2, j_lambda,
     plt.title(
         'Wing aerodynamic center --- effect of $(\Lambda_{\mathrm{le}},\mathrm{AR})$, '
         +r'$\lambda = {0:.3}$'.format(var0_K2[j_lambda]),
-        fontsize=22)
+        fontsize=16)
     
     plt.axis([0, 45, 0, 1.1*max(data_K2[:,5,j_lambda])])
     
@@ -420,8 +420,8 @@ def plot_interpolate_K2(var0_K2, var1_K2, var2_K2, data_K2, j_lambda,
     ax.yaxis.set_ticks_position('left')
     ax.spines['left'].set_position(('data',-0.5))
     
-    plt.xlabel('$\Lambda_{\mathrm{le}}$ (deg)', fontsize=22)
-    plt.ylabel('$K_2$', fontsize=22)
+    plt.xlabel('$\Lambda_{\mathrm{le}}$ (deg)', fontsize=16)
+    plt.ylabel('$K_2$', fontsize=16)
     plt.show()
 
 #----------------------------------------------------------
@@ -454,7 +454,7 @@ def plot_interpolate_XacCr(var0_XacCr, var1_XacCr, var2_XacCr, data_XacCr, j_lam
         line.set_dashes([1000,1]) # HUUUUGE
         plt.annotate(r'$\mathrm{AR} \tan\Lambda_{\mathrm{le}} =\,$'+r'{0}'.format(var1_XacCr[i_AR,0]),
                      xy=(var2_XacCr[idx_max_TanLambdaLE], slice_ij[idx_max_TanLambdaLE]), xycoords='data',
-                     xytext=(40, 0), textcoords='offset points', fontsize=22,
+                     xytext=(40, 0), textcoords='offset points', fontsize=16,
                      arrowprops=dict(arrowstyle="->")) # , connectionstyle="arc3,rad=.5"
 
     # interpolated data
@@ -465,7 +465,7 @@ def plot_interpolate_XacCr(var0_XacCr, var1_XacCr, var2_XacCr, data_XacCr, j_lam
     plt.title(
         r'Wing aerodynamic center --- effect of $(\tan\Lambda_{\mathrm{le}}/\sqrt{1-M^2},\mathrm{AR}\tan\Lambda_{\mathrm{le}})$, '
         +'$\lambda = {0:.3}$'.format(var0_XacCr[j_lambda]),
-        fontsize=22)
+        fontsize=16)
     
     plt.axis([0, 2.2, -0.05, 1.1*max(data_XacCr[:,6,j_lambda])])
     
@@ -478,7 +478,7 @@ def plot_interpolate_XacCr(var0_XacCr, var1_XacCr, var2_XacCr, data_XacCr, j_lam
     ax.yaxis.set_ticks_position('left')
     ax.spines['left'].set_position(('data',-0.05))
     
-    plt.xlabel(r'$\tan\Lambda_{\mathrm{le}}/\sqrt{1-M^2}$', fontsize=22)
-    plt.ylabel('$X_{\mathrm{ac}}\'/c_{\mathrm{r}}$', fontsize=22)
+    plt.xlabel(r'$\tan\Lambda_{\mathrm{le}}/\sqrt{1-M^2}$', fontsize=16)
+    plt.ylabel('$X_{\mathrm{ac}}\'/c_{\mathrm{r}}$', fontsize=16)
     plt.show()
 
