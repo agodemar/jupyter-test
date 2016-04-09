@@ -193,7 +193,7 @@ def multiplot_K2(var0_K2, var1_K2, var2_K2, data_K2):
     idx_max_LambdaLE = 9
 
     # fig, ax = plt.subplots()
-    fig, axes = plt.subplots(3,2)
+    fig, axes = plt.subplots(3,2,figsize=(9, 11))
     
     j_lambda = 0
     for i, ax in enumerate(axes.flat, start=1):
@@ -211,7 +211,7 @@ def multiplot_K2(var0_K2, var1_K2, var2_K2, data_K2):
             r'$\lambda = {0:.3}$'.format(var0_K2[j_lambda]),
             fontsize=12)
         
-        ymajorLocator = MultipleLocator(1.0)
+        ymajorLocator = MultipleLocator(0.5)
         ymajorFormatter = FormatStrFormatter('%.1f')
         yminorLocator = MultipleLocator(5)
         ax.yaxis.set_major_locator(ymajorLocator)
@@ -236,7 +236,7 @@ def multiplot_K2(var0_K2, var1_K2, var2_K2, data_K2):
         j_lambda += 1 
 
     plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)
-    plt.subplots_adjust(wspace=0.48)
+    plt.subplots_adjust(wspace=0.78)
     plt.show()
     
 
@@ -284,6 +284,64 @@ def plot_XacCr(var0_XacCr, var1_XacCr, var2_XacCr, data_XacCr, j_lambda=0):
     plt.show()
 
 #----------------------------------------------------------
+def multiplot_XacCr(var0_XacCr, var1_XacCr, var2_XacCr, data_XacCr):
+
+    # j_lambda max = 5
+    
+    idx_max_TanLambdaLE = 10
+
+    # fig, ax = plt.subplots()
+    fig, axes = plt.subplots(3,2,figsize=(9, 11))
+    
+    j_lambda = 0
+    for i, ax in enumerate(axes.flat, start=1):
+
+        for i_AR in range(0, 7):
+            slice_ij = None
+            slice_ij = data_XacCr[:,i_AR,j_lambda]
+            line, = ax.plot(var2_XacCr, slice_ij, linewidth=2.5, linestyle="-")
+            line.set_dashes([1000,1]) # HUUUUGE
+            ax.annotate(r'$\mathrm{AR}\tan\Lambda_{\mathrm{le}} = \,$'+r'{0}'.format(var1_XacCr[i_AR,0]),
+                         xy=(var2_XacCr[idx_max_TanLambdaLE], slice_ij[idx_max_TanLambdaLE]), xycoords='data',
+                         xytext=(20, 0), textcoords='offset points', fontsize=12,
+                         arrowprops=dict(arrowstyle="->")) # , connectionstyle="arc3,rad=.5"
+        ax.set_title(
+            #'Wing aerodynamic center --- effect of $(\Lambda_{\mathrm{le}},\mathrm{AR})$, '
+            r'$\lambda = {0:.3}$'.format(var0_XacCr[j_lambda]),
+            fontsize=12)
+
+        ymajorLocator = MultipleLocator(0.25)
+        ymajorFormatter = FormatStrFormatter('%.1f')
+        yminorLocator = MultipleLocator(1)
+        ax.yaxis.set_major_locator(ymajorLocator)
+        ax.yaxis.set_major_formatter(ymajorFormatter)
+        # for the minor ticks, use no labels; default NullFormatter
+        ax.yaxis.set_minor_locator(yminorLocator)
+
+        ax.axis([0, 2, -0.05, 1.1*max(data_XacCr[:,6,j_lambda])])
+        
+        # Moving spines
+        #ax = plt.gca()  # gca stands for 'get current axis'
+        ax.spines['right'].set_color('none')
+        ax.spines['top'].set_color('none')
+        ax.xaxis.set_ticks_position('bottom')
+        ax.spines['bottom'].set_position(('data',-0.07))
+        ax.yaxis.set_ticks_position('left')
+        ax.spines['left'].set_position(('data',-0.05))
+        
+        ax.set_xlabel(r'$\tan\Lambda_{\mathrm{le}}/\sqrt{1-M^2}$', fontsize=12)
+        ax.set_ylabel('$X_{\mathrm{ac}}\'/c_{\mathrm{r}}$', fontsize=12)
+
+        #ax[0,0].show()
+        j_lambda += 1 
+
+    plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)
+    plt.subplots_adjust(wspace=0.85)
+    plt.show()
+    
+
+
+#----------------------------------------------------------
 def plot_interpolate_K1(var0_K1, data_K1, lam):
     g = interp1d(var0_K1, data_K1)
     K1 = g(lam)
@@ -322,7 +380,7 @@ def plot_interpolate_K2(var0_K2, var1_K2, var2_K2, data_K2, j_lambda,
     # interpolation in 2D
     g = interp2d(var1_K2, var2_K2, data_K2[:,:,j_lambda], kind='linear')
     K2 = g(AR, LamLE_deg)
-    print('Lambda_LE = {0} deg, AR = {1} --> K_2 = {2}'.format(LamLE_deg, AR, K2))
+    print('Lambda_LE = {0} deg, AR = {1} --> K_2 = {2}'.format(LamLE_deg, AR, K2[0]))
     
     fig, ax = plt.subplots()
     
@@ -380,7 +438,7 @@ def plot_interpolate_XacCr(var0_XacCr, var1_XacCr, var2_XacCr, data_XacCr, j_lam
     x_ = math.tan(LamLE_deg*np.pi/180)/math.sqrt(1 - math.pow(Mach,2))
     XacCr = g(y_,x_)
     print('x_1 = tan(Lambda_LE)/sqrt(1-M^2) = {0}\nx_2 = AR*tan(Lambda_LE) = {1}\n --> Xac\'/c_r = {2}'
-        .format(x_, y_, XacCr))
+        .format(x_, y_, XacCr[0]))
 
     fig, ax = plt.subplots()
     
