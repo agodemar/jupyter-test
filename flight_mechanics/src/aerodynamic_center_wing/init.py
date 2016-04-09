@@ -127,9 +127,9 @@ def report_database_dimensions(database):
 def plot_K1(var0_K1, data_K1):
     fig, ax = plt.subplots()
     plt.plot(var0_K1, data_K1, color="red", linewidth=2.5, linestyle="-")
-    plt.title('Wing aerodynamic center --- effect of $\lambda$', fontsize=22)
-    plt.xlabel('$\lambda$', fontsize=22)
-    plt.ylabel('$K_1$', fontsize=22)
+    plt.title('Wing aerodynamic center --- effect of $\lambda$', fontsize=16)
+    plt.xlabel('$\lambda$', fontsize=16)
+    plt.ylabel('$K_1$', fontsize=16)
     plt.axis([0, 1, 0.8, 1.6])
     # Moving spines
     ax = plt.gca()  # gca stands for 'get current axis'
