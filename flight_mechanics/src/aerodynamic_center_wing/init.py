@@ -22,6 +22,7 @@ from cycler import cycler
 
 import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 
 from IPython.display import set_matplotlib_formats
 set_matplotlib_formats('pdf', 'png')
@@ -183,6 +184,61 @@ def plot_K2(var0_K2, var1_K2, var2_K2, data_K2, j_lambda=0):
     plt.xlabel('$\Lambda_{\mathrm{le}}$ (deg)', fontsize=22)
     plt.ylabel('$K_2$', fontsize=22)
     plt.show()
+
+#----------------------------------------------------------
+def multiplot_K2(var0_K2, var1_K2, var2_K2, data_K2):
+
+    # j_lambda max = 5
+    
+    idx_max_LambdaLE = 9
+
+    # fig, ax = plt.subplots()
+    fig, axes = plt.subplots(3,2)
+    
+    j_lambda = 0
+    for i, ax in enumerate(axes.flat, start=1):
+        for i_AR in range(0, 6):
+            slice_ij = None
+            slice_ij = data_K2[:,i_AR,j_lambda]
+            line, = ax.plot(var2_K2, slice_ij, linewidth=2.5, linestyle="-")
+            line.set_dashes([1000,1]) # HUUUUGE
+            ax.annotate(r'$\mathrm{AR} = \,$'+r'{0}'.format(var1_K2[i_AR]),
+                         xy=(var2_K2[idx_max_LambdaLE], slice_ij[idx_max_LambdaLE]), xycoords='data',
+                         xytext=(20, 0), textcoords='offset points', fontsize=12,
+                         arrowprops=dict(arrowstyle="->")) # , connectionstyle="arc3,rad=.5"
+        ax.set_title(
+            #'Wing aerodynamic center --- effect of $(\Lambda_{\mathrm{le}},\mathrm{AR})$, '
+            r'$\lambda = {0:.3}$'.format(var0_K2[j_lambda]),
+            fontsize=12)
+        
+        ymajorLocator = MultipleLocator(1.0)
+        ymajorFormatter = FormatStrFormatter('%.1f')
+        yminorLocator = MultipleLocator(5)
+        ax.yaxis.set_major_locator(ymajorLocator)
+        ax.yaxis.set_major_formatter(ymajorFormatter)
+        # for the minor ticks, use no labels; default NullFormatter
+        ax.yaxis.set_minor_locator(yminorLocator)
+
+        ax.axis([0, 45, 0, 1.1*max(data_K2[:,5,j_lambda])])
+        
+        # Moving spines
+        #ax = plt.gca()  # gca stands for 'get current axis'
+        ax.spines['right'].set_color('none')
+        ax.spines['top'].set_color('none')
+        ax.xaxis.set_ticks_position('bottom')
+        ax.spines['bottom'].set_position(('data',-0.05))
+        ax.yaxis.set_ticks_position('left')
+        ax.spines['left'].set_position(('data',-0.5))
+        
+        ax.set_xlabel('$\Lambda_{\mathrm{le}}$ (deg)', fontsize=12)
+        ax.set_ylabel('$K_2$', fontsize=12)
+        #ax[0,0].show()
+        j_lambda += 1 
+
+    plt.tight_layout(pad=0.4, w_pad=0.5, h_pad=1.0)
+    plt.subplots_adjust(wspace=0.48)
+    plt.show()
+    
 
 #----------------------------------------------------------
 def plot_XacCr(var0_XacCr, var1_XacCr, var2_XacCr, data_XacCr, j_lambda=0):
