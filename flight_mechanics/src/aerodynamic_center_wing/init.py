@@ -29,7 +29,7 @@ set_matplotlib_formats('pdf', 'png')
 plt.rcParams['savefig.dpi'] = 96
 
 plt.rcParams['figure.autolayout'] = False
-plt.rcParams['figure.figsize'] = 10, 6
+plt.rcParams['figure.figsize'] = 10, 12
 plt.rcParams['axes.labelsize'] = 18
 plt.rcParams['axes.titlesize'] = 20
 plt.rcParams['font.size'] = 16
@@ -54,7 +54,7 @@ plt.rc('axes',
 def plot_planform(c_r, c_t, b, Lambda_le, *args, **kwargs):
 
     # optional arguments
-    mac = kwargs.get('mac', None)
+    c_mac = kwargs.get('mac', None)
     X_le_mac = kwargs.get('X_le_mac', None)
     Y_mac = kwargs.get('Y_mac', None)
     X_ac = kwargs.get('X_ac', None)

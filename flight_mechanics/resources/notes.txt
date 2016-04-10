@@ -1,5 +1,7 @@
 https://github.com/Zverik/svg-resize
 
-Resize Alpha-Zero-Lift svg image:
+Resize svg images:
 
 > python svg-resize.py -x 240 -f Wing_Alpha_Zero_Lift.svg Wing_Alpha_Zero_Lift_WEB.svg
+
+> python svg-resize.py -x 220 -f Wing_Aerodynamic_Center.svg Wing_Aerodynamic_Center_WEB.svg
