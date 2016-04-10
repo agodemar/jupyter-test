@@ -51,6 +51,92 @@ plt.rc('axes',
     )
 
 #----------------------------------------------------------
+def plot_planform(c_r, c_t, b, Lambda_le, *args, **kwargs):
+
+    # optional arguments
+    mac = kwargs.get('mac', None)
+    X_le_mac = kwargs.get('X_le_mac', None)
+    Y_mac = kwargs.get('Y_mac', None)
+    X_ac = kwargs.get('X_ac', None)
+    
+    xLineWing = [0,b/2,b/2,0]
+    dy = (b/2)*math.tan(Lambda_le)
+    yLineWing = [
+        0, 0.25*c_r - 0.25*c_t + dy,
+        0.25*c_r + 0.75*c_t + dy, c_r]
+
+    # planform
+    lineWing, = plt.plot(xLineWing, yLineWing, 'k-')
+    # centerline
+    centerLine, = plt.plot([0,0], [-1.1*c_r,2.1*c_r], 'b')
+    centerLine.set_dashes([8, 4, 2, 4]) 
+    # c/4 line
+    pC4r = [0,0.25*c_r]
+    pC4t = [b/2,dy + 0.25*c_r]
+    quarterChordLine, = plt.plot([pC4r[0],pC4t[0]], [pC4r[1],pC4t[1]], 'k--')
+
+    if ('mac' in kwargs) and ('X_le_mac' in kwargs) and ('Y_mac' in kwargs):
+        c_mac = kwargs['mac']
+        X_le_mac = kwargs['X_le_mac']
+        Y_mac = kwargs['Y_mac']
+        #print(mac)
+        #print(X_le_mac)
+        #print(Y_mac)
+        lineMAC, = plt.plot([Y_mac, Y_mac], [X_le_mac, X_le_mac + c_mac], color="red", linewidth=2.5, linestyle="-")
+        lineMAC.set_dashes([1000,1]) # HUUUUGE
+        lineLEMAC, = plt.plot([0,b/2], [X_le_mac,X_le_mac], color="orange", linewidth=1.5, linestyle="-")
+        lineLEMAC.set_dashes([10,2])
+        lineTEMAC, = plt.plot([0,b/2], [X_le_mac + c_mac, X_le_mac + c_mac], color="orange", linewidth=1.5, linestyle="-")
+        lineTEMAC.set_dashes([10,2])
+        plt.scatter(Y_mac, X_le_mac, marker='o', s=40)
+        ax = plt.gca()  # gca stands for 'get current axis'
+        ax.annotate(
+            r'$(Y_{\bar{c}},X_{\mathrm{le},\bar{c}}) = '
+                +r'( {0:.3}'.format(Y_mac) + r'\,\mathrm{m}'+r',\,{0:.3}'.format(X_le_mac) + r'\,\mathrm{m} )$',
+                         xy=(Y_mac, X_le_mac), xycoords='data',
+                         xytext=(20, 30), textcoords='offset points', fontsize=12,
+                         arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=.2")) # 
+        
+    if 'X_ac' in kwargs:
+        X_ac = kwargs['X_ac']
+        #print(X_ac)
+        plt.scatter(0, X_ac, marker='o', s=40)
+        lineAC, = plt.plot([0,b/2], [X_ac,X_ac], color="brown", linewidth=3.5, linestyle="-")
+        lineAC.set_dashes([10,2.5,3,2.5])
+        ax = plt.gca()  # gca stands for 'get current axis'
+        ax.annotate(r'$X_{\mathrm{ac,W}} = '+r'{0:.3}'.format(X_ac)+r'\,\mathrm{m} $',
+                         xy=(b/2, X_ac), xycoords='data',
+                         xytext=(20, 30), textcoords='offset points', fontsize=12,
+                         arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=.2")) # 
+
+    plt.axis('equal')
+    
+    #    xmajorLocator = MultipleLocator(2.0)
+    #    xmajorFormatter = FormatStrFormatter('%.1f')
+    #    xminorLocator = MultipleLocator(4)
+    #    ax = plt.gca()  # gca stands for 'get current axis'
+    #    ax.xaxis.set_major_locator(xmajorLocator)
+    #    ax.xaxis.set_major_formatter(xmajorFormatter)
+    #    # for the minor ticks, use no labels; default NullFormatter
+    #    ax.xaxis.set_minor_locator(xminorLocator)
+    
+    plt.axis([-0.02*b/2, 1.1*b/2, -0.1*c_r, c_r + 1.1*dy])
+    plt.gca().invert_yaxis()
+    plt.title('Wing planform', fontsize=16)
+    plt.xlabel('$y$ (m)', fontsize=16)
+    plt.ylabel('$X$ (m)', fontsize=16)
+    # Moving spines
+    ax = plt.gca()  # gca stands for 'get current axis'
+    ax.spines['right'].set_color('none')
+    ax.spines['top'].set_color('none')
+    ax.xaxis.set_ticks_position('bottom')
+    ax.spines['bottom'].set_position(('data',c_r + 1.15*dy))
+    ax.yaxis.set_ticks_position('left')
+    ax.spines['left'].set_position(('data',-0.1*b/2))
+
+    plt.show()
+
+#----------------------------------------------------------
 def import_database_aerodynamic_center():
     fileName = "./resources/wing_aerodynamic_center.h5"
     f = h5py.File(fileName,'r',libver='latest')
@@ -482,3 +568,109 @@ def plot_interpolate_XacCr(var0_XacCr, var1_XacCr, var2_XacCr, data_XacCr, j_lam
     plt.ylabel('$X_{\mathrm{ac}}\'/c_{\mathrm{r}}$', fontsize=16)
     plt.show()
 
+#----------------------------------------------------------
+def display_workflow_c_mac(S_ref, b, A_c, B_c, c_mac_law_integral_indefinite, mac):
+    c_mac_law_integral_indefinite_latex = latex(c_mac_law_integral_indefinite)
+    return Latex(
+        r'\begin{align*}'
+            + r'\bar{c} & {}=\frac{2}{S} \int_{0}^{b/2} c^2(y) \, \mathrm{d}y'
+            + r'\\[1em]' 
+            + r'& {}= \frac{2}{'+ '{0:.4}'.format(S_ref) +r'\,\mathrm{m}^2} \int_0^{' + '{0:.3}'.format(b/2) + '}' 
+            + r'\Big(' 
+            +   r'{0:.4}'.format(A_c) + r'\, y + ' + '{0:.4}'.format(B_c) + r'\,\text{m}'
+            + r'\Big)^2\,\text{d}y' 
+            + r'\\[1em]' 
+            + r'& {}= \frac{2}{'+ '{0:.4}'.format(S_ref) +r'} \big(' 
+            +   c_mac_law_integral_indefinite_latex 
+            + r'\big)\Bigr|_0^{' + '{0:.4}'.format(b/2) + r'}'
+            + '=' + '{0:.4}'.format(mac) + r'\,\text{m}'
+        + r'\end{align*}'
+    )
+
+#----------------------------------------------------------
+def display_workflow_X_le_mac(S_ref, b, A_c, B_c, A_xle, X_le_mac_law_integral_indefinite, X_le_mac):
+    X_le_mac_law_integral_indefinite_latex = latex(X_le_mac_law_integral_indefinite)
+    return Latex(
+        r'\begin{align*}'
+            + r'X_{\mathrm{le},\bar{c}} & {}=\frac{2}{S} \int_{0}^{b/2} X_{\mathrm{le}}(y) \, c(y) \, \mathrm{d}y'
+            + r'\\[1em]' 
+            + r'& {}= \frac{2}{'+ '{0:.4}'.format(S_ref) +r'\,\mathrm{m}^2} \int_0^{' + '{0:.3}'.format(b/2) + '}' 
+            + r'{0:.4}'.format(A_xle) + r'\, y\,'            
+            + r'\Big(' 
+            +   r'{0:.4}'.format(A_c) + r'\, y + ' + '{0:.4}'.format(B_c) + r'\,\text{m}'
+            + r'\Big)\,\text{d}y' 
+            + r'\\[1em]' 
+            + r'& {}= \frac{2}{'+ '{0:.4}'.format(S_ref) +r'} \big(' 
+            +   X_le_mac_law_integral_indefinite_latex 
+            + r'\big)\Bigr|_0^{' + '{0:.4}'.format(b/2) + r'}'
+            + '=' + '{0:.4}'.format(X_le_mac) + r'\,\text{m}'
+        + r'\end{align*}'
+    )
+
+#----------------------------------------------------------
+def display_workflow_Y_mac(S_ref, b, A_c, B_c, Y_mac_law_integral_indefinite, Y_mac):
+    Y_mac_law_integral_indefinite_latex = latex(Y_mac_law_integral_indefinite)
+    return Latex(
+        r'\begin{align*}'
+            + r'Y_{\bar{c}} & {}=\frac{2}{S} \int_{0}^{b/2} y \, c(y) \, \mathrm{d}y'
+            + r'\\[1em]' 
+            + r'& {}= \frac{2}{'+ '{0:.4}'.format(S_ref) +r'\,\mathrm{m}^2} \int_0^{' + '{0:.3}'.format(b/2) + '}' 
+            + r' y\,'            
+            + r'\Big(' 
+            +   r'{0:.4}'.format(A_c) + r'\, y + ' + '{0:.4}'.format(B_c) + r'\,\text{m}'
+            + r'\Big)\,\text{d}y' 
+            + r'\\[1em]' 
+            + r'& {}= \frac{2}{'+ '{0:.4}'.format(S_ref) +r'} \big(' 
+            +   Y_mac_law_integral_indefinite_latex 
+            + r'\big)\Bigr|_0^{' + '{0:.4}'.format(b/2) + r'}'
+            + '=' + '{0:.4}'.format(Y_mac) + r'\,\text{m}'
+        + r'\end{align*}'
+    )
+
+#----------------------------------------------------------
+def display_workflow_K2(lam_a, lam_b, K2_a, K2_b, taper_ratio, K2):
+    return Latex(
+        r'\begin{equation}'
+        +  r'K_2 = K_2 \Big|_{\lambda=' + '{0:.3}'.format(lam_a) + r'}'
+        +    r'+ \frac{'
+        +      r'K_2 \Big|_{\lambda=' + '{0:.3}'.format(lam_b) + r'}'
+        +      r'- K_2 \Big|_{\lambda=' + '{0:.3}'.format(lam_a) + r'}'
+        +    r'}{'
+        +      r'{0:.3}'.format(lam_b) + r'-{0:.3}'.format(lam_a)
+        +    r'}'
+        +    r'\,\big( {0:.3} - {1:.3} \big)'.format(taper_ratio,lam_a)
+        +    r'= {0:.3}'.format(K2_a)
+        +    r'+ \frac{'
+        +      r'{0:.3}'.format(K2_b)
+        +      r'- {0:.3}'.format(K2_a)
+        +    r'}{'
+        +      r'{0:.3}'.format(lam_b) + r'-{0:.3}'.format(lam_a)
+        +    r'}'
+        +    r'\,\big( {0:.3} - {1:.3} \big)'.format(taper_ratio,lam_a)
+        +    r'=' + '{0:.3}'.format(K2)
+        +r'\end{equation}'
+    )
+
+#----------------------------------------------------------
+def display_workflow_XacCr(lam_a, lam_b, XacCr_a, XacCr_b, taper_ratio, XacCr):
+    return Latex(
+        r'\begin{equation}'
+        +  r'\frac{X_{\mathrm{ac}}'+"'"+r'}{c_{\mathrm{r}}} = \frac{X_{\mathrm{ac}}'+"'"+r'}{c_{\mathrm{r}}} \Big|_{\lambda=' + '{0:.3}'.format(lam_a) + r'}'
+        +    r'+ \frac{'
+        +      r'\dfrac{X_{\mathrm{ac}}'+"'"+r'}{c_{\mathrm{r}}} \Big|_{\lambda=' + '{0:.3}'.format(lam_b) + r'}'
+        +      r'- \dfrac{X_{\mathrm{ac}}'+"'"+r'}{c_{\mathrm{r}}} \Big|_{\lambda=' + '{0:.3}'.format(lam_a) + r'}'
+        +    r'}{'
+        +      r'{0:.3}'.format(lam_b) + r'-{0:.3}'.format(lam_a)
+        +    r'}'
+        +    r'\,\big( {0:.3} - {1:.3} \big)'.format(taper_ratio,lam_a)
+        +    r'= {0:.3}'.format(XacCr_a)
+        +    r'+ \frac{'
+        +      r'{0:.3}'.format(XacCr_b)
+        +      r'- {0:.3}'.format(XacCr_a)
+        +    r'}{'
+        +      r'{0:.3}'.format(lam_b) + r'-{0:.3}'.format(lam_a)
+        +    r'}'
+        +    r'\,\big( {0:.3} - {1:.3} \big)'.format(taper_ratio,lam_a)
+        +    r'=' + '{0:.3}'.format(XacCr)
+        +r'\end{equation}'
+    )
