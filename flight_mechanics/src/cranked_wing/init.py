@@ -148,3 +148,71 @@ def plot_planform(c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2, *args, **kwar
 
     plt.show()
 
+#----------------------------------------------------------
+def plot_wing_functions(c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2, 
+                        f_chords, f_Xle):
+    """
+    
+    See: http://www.scipy-lectures.org/intro/matplotlib/matplotlib.html
+    
+    """
+
+    # define vectors
+    vY = np.linspace(0, b/2, 10, endpoint=True)
+    vChord = []
+    vXle = []
+    for y in vY:
+        vChord.append(f_chords(c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2, y))
+        vXle.append(f_Xle(b_k, b, Lambda_le_1, Lambda_le_2, y))
+        
+    #vAlpha0L = A_alpha*vY + B_alpha
+    #vEpsilon = A_eps*vY
+    #vIntegrand = (vAlpha0L - vEpsilon)*vChord
+    
+    # Create a figure of size WxH inches, DPI dots per inch
+    fig = plt.figure(figsize=(10, 12), dpi=300)
+    
+    # Create a new subplot from a grid of 1x1
+    ax0 = plt.subplot(1, 1, 1)
+    
+    #fig, ax0 = plt.subplots()
+    
+    
+    plt.plot(vY, vChord, color="red", linewidth=2.5, linestyle="-", label=r'local chord $c$ (m)')
+    plt.plot(vY, vXle, color="green", linewidth=2.5, linestyle="-", label=r'local chord $X_{\mathrm{le}}$ (m)')
+    #plt.plot(vY, vAlpha0L*180/np.pi, color="green",  linewidth=2.5, linestyle="-", label=r"local $\alpha_{0\ell}$ (deg)")
+    #plt.plot(vY, vEpsilon*180/np.pi, color="blue",  linewidth=2.5, linestyle="-", label=r"local $\epsilon_{\mathrm{g}}$ (deg)")
+    #plt.plot(vY, vIntegrand*180/np.pi, color="brown",  linewidth=2.5, linestyle="-", 
+    #         label=r"Integrand function $\big(\alpha_{0\ell}$ - \epsilon_{\mathrm{g}}\big) c$ (deg m)")
+    
+    # shaded region --> http://matplotlib.org/examples/showcase/integral_demo.html
+    #vertices = [(0, 0)] + list(zip(vY, vIntegrand*180/np.pi)) + [(b/2, 0)]
+    #poly = Polygon(vertices, facecolor="orange", alpha=0.5, edgecolor="none")
+    #ax0.add_patch(poly)
+    
+    plt.legend(loc='upper center', fontsize=18)
+    
+    tipLine, = plt.plot([b/2,b/2], [-4, 7], color="gray", linewidth=1.0)
+    tipLine.set_dashes([8, 4]) 
+    plt.annotate(r'$y=\frac{b}{2}$',
+                 xy=(b/2, -4), xycoords='data',
+                 xytext=(40, -40), textcoords='offset points', fontsize=22,
+                 arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=.5"))
+    
+    zeroYLine, = plt.plot([-1,b/2], [0,0],  color="gray", linewidth=1.0)
+    zeroYLine.set_dashes([8, 4]) 
+    
+    plt.axis([0, 1.1*b/2, -5, 8])
+    plt.title('Wing functions', fontsize=22)
+    plt.xlabel('$y$ (m)', fontsize=22)
+    #plt.ylabel('$X$ (m)', fontsize=22)
+    
+    # Moving spines
+    ax = plt.gca()  # gca stands for 'get current axis'
+    ax.spines['right'].set_color('none')
+    ax.spines['top'].set_color('none')
+    ax.xaxis.set_ticks_position('bottom')
+    ax.spines['bottom'].set_position(('data',-6))
+    ax.yaxis.set_ticks_position('left')
+    ax.spines['left'].set_position(('data',-0.1))    
+    plt.show()
