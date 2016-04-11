@@ -53,7 +53,7 @@ plt.rc('axes',
 #----------------------------------------------------------
 def plot_planform(c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2, *args, **kwargs):
 
-    fig = plt.subplots(figsize=(9, 11))
+    fig = plt.subplots(figsize=(9, 9))
     
     # optional arguments
     c_mac = kwargs.get('mac', None)
@@ -78,7 +78,7 @@ def plot_planform(c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2, *args, **kwar
     plt.scatter(xLineWing, yLineWing, marker='o', s=40)    
     
     # centerline
-    centerLine, = plt.plot([0,0], [-1.1*c_r,2.1*c_r], 'b')
+    centerLine, = plt.plot([0,0], [-0.2*c_r,2.1*c_r], 'b')
     centerLine.set_dashes([8, 4, 2, 4]) 
     # c/4 line
     pC4r = [0, 0.25*c_r]
@@ -158,7 +158,9 @@ def plot_wing_functions(c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2,
     """
 
     # define vectors
-    vY = np.linspace(0, b/2, 10, endpoint=True)
+    vY0 = np.linspace(0, b/2, 10, endpoint=True)
+    vY1 = np.concatenate([vY0,[b_k/2]])
+    vY = np.sort(np.unique(vY1))
     vChord = []
     vXle = []
     for y in vY:
