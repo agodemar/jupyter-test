@@ -181,7 +181,7 @@ def plot_wing_functions(c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2,
     
     
     plt.plot(vY, vChord, color="red", linewidth=2.5, linestyle="-", label=r'local chord $c$ (m)')
-    plt.plot(vY, vXle, color="green", linewidth=2.5, linestyle="-", label=r'local chord $X_{\mathrm{le}}$ (m)')
+    plt.plot(vY, vXle, color="green", linewidth=2.5, linestyle="-", label=r'local l.e. coordinate $X_{\mathrm{le}}$ (m)')
     #plt.plot(vY, vAlpha0L*180/np.pi, color="green",  linewidth=2.5, linestyle="-", label=r"local $\alpha_{0\ell}$ (deg)")
     #plt.plot(vY, vEpsilon*180/np.pi, color="blue",  linewidth=2.5, linestyle="-", label=r"local $\epsilon_{\mathrm{g}}$ (deg)")
     #plt.plot(vY, vIntegrand*180/np.pi, color="brown",  linewidth=2.5, linestyle="-", 
