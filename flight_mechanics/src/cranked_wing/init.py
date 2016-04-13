@@ -8,6 +8,7 @@ css_styling()
 # load libraries and set plot parameters
 import math
 import numpy as np
+import pandas as pd
 import tables as pt
 
 import scipy
@@ -167,7 +168,8 @@ def plot_wing_functions(c_r, c_k, c_t,
     f_alpha0l = kwargs.get('f_alpha0l', None)
     f_S_integral = kwargs.get('f_S_integral', None)
     f_mac_integral = kwargs.get('f_mac_integral', None)
-    f_Xle_integral = kwargs.get('f_Xle_integral', None)
+    f_Xle_mac_integral = kwargs.get('f_Xle_mac_integral', None)
+    f_Y_mac_integral = kwargs.get('f_Y_mac_integral', None)
     f_alpha0L_integral_indefinite = kwargs.get('f_alpha0L_integral_indefinite', None)
 
     n_points = kwargs.get('f_chord', None)
@@ -181,8 +183,15 @@ def plot_wing_functions(c_r, c_k, c_t,
     vY1 = np.concatenate([vY0,[b_k/2]])
     vY = np.sort(np.unique(vY1))
 
+    the_figsize = kwargs.get('figsize', None)
+    if ('figsize' in kwargs):
+        the_figsize = kwargs['figsize']
+    else:
+        the_figsize = (11,12)
+
+
     # Create a figure of size WxH inches, DPI dots per inch
-    fig = plt.figure(figsize=(11, 12), dpi=300)
+    fig = plt.figure(figsize=the_figsize, dpi=300)
     
     # Create a new subplot from a grid of 1x1
     ax0 = plt.subplot(1, 1, 1)
@@ -353,7 +362,22 @@ def plot_wing_functions(c_r, c_k, c_t,
     ax.spines['right'].set_color('none')
     ax.spines['top'].set_color('none')
     ax.xaxis.set_ticks_position('bottom')
-    ax.spines['bottom'].set_position(('outward',10))
+
+    vshift_xaxis = kwargs.get('vshift_xaxis', None)
+    if ('vshift_xaxis' in kwargs):
+        vshift_xaxis = kwargs['vshift_xaxis']
+    else:
+        vshift_xaxis = 10
+
+    ax.spines['bottom'].set_position(('outward',vshift_xaxis))
+    
+    hshift_yaxis = kwargs.get('hshift_yaxis', None)
+    if ('hshift_yaxis' in kwargs):
+        hshift_yaxis = kwargs['hshift_yaxis']
+    else:
+        hshift_yaxis = 10
+        
     ax.yaxis.set_ticks_position('left')
-    ax.spines['left'].set_position(('outward',10))    
+    ax.spines['left'].set_position(('outward',hshift_yaxis))    
+
     plt.show()
