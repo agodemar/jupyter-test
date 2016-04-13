@@ -10,11 +10,12 @@ import math
 import numpy as np
 import tables as pt
 
-from scipy.interpolate import interp1d, interp2d, Rbf
+import scipy
+from scipy.interpolate import interp1d, interp2d
 
 import h5py
 
-from sympy import *
+import sympy
 
 from IPython.display import display, Math, Latex, SVG
 
@@ -152,7 +153,6 @@ def plot_planform(c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2, *args, **kwar
 def plot_wing_functions(c_r, c_k, c_t, 
                     eps_k, eps_t, alpha0l_r, alpha0l_k, alpha0l_t,
                     b_k, b, Lambda_le_1, Lambda_le_2, 
-                    f_chords, f_Xle, f_twist, f_alpha0l,
                     *args, **kwargs):
     """
     
@@ -161,30 +161,26 @@ def plot_wing_functions(c_r, c_k, c_t,
     """
 
     # optional arguments
-    f_S_integral_indefinite = kwargs.get('f_S_integral_indefinite', None)
+    f_chord = kwargs.get('f_chord', None)
+    f_Xle = kwargs.get('f_Xle', None)
+    f_twist = kwargs.get('f_twist', None)
+    f_alpha0l = kwargs.get('f_alpha0l', None)
+    f_S_integral = kwargs.get('f_S_integral', None)
+    f_mac_integral = kwargs.get('f_mac_integral', None)
+    f_Xle_integral = kwargs.get('f_Xle_integral', None)
     f_alpha0L_integral_indefinite = kwargs.get('f_alpha0L_integral_indefinite', None)
 
+    n_points = kwargs.get('f_chord', None)
+    if ('n_points' in kwargs):
+        n_points = kwargs['n_points']
+    else:
+        n_points = 20
 
     # define vectors
-    n_points = 20
     vY0 = np.linspace(0, b/2, n_points, endpoint=True)
     vY1 = np.concatenate([vY0,[b_k/2]])
     vY = np.sort(np.unique(vY1))
-    vChord = []
-    vXle = []
-    vTwist = []
-    vAlpha0l = []
-    for y in vY:
-        vChord.append(f_chords(c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2, y))
-        vXle.append(f_Xle(b_k, b, Lambda_le_1, Lambda_le_2, y))
-        vTwist.append(f_twist(eps_k, eps_t, b_k, b, y))
-        vAlpha0l.append(f_alpha0l(alpha0l_r, alpha0l_k, alpha0l_t, b_k, b, y))
-        
-    vChord = np.asarray(vChord)
-    vTwist = np.asarray(vTwist)
-    vXle = np.asarray(vXle)
-    vAlpha0l = np.asarray(vAlpha0l)
-    
+
     # Create a figure of size WxH inches, DPI dots per inch
     fig = plt.figure(figsize=(11, 12), dpi=300)
     
@@ -193,35 +189,97 @@ def plot_wing_functions(c_r, c_k, c_t,
     
     #fig, ax0 = plt.subplots()
     
-    
-    plt.plot(vY, vChord, color="red", linewidth=2.5, linestyle="-", label=r'local chord $c$ (m)')
-    plt.plot(vY, vXle, color="green", linewidth=2.5, linestyle="-", label=r'local l.e. coordinate $X_{\mathrm{le}}$ (m)')
-    plt.plot(vY, vTwist*180/np.pi, color="blue",  linewidth=2.5, linestyle="-", label=r"local $\epsilon_{\mathrm{g}}$ (deg)")
-    plt.plot(vY, vAlpha0l*180/np.pi, color="brown",  linewidth=2.5, linestyle="-", label=r"local $\alpha_{0\ell}$ (deg)")
-    
-    if ('f_S_integral_indefinite' in kwargs):
-        y = Symbol('y')
-        f_S_integral_indefinite = kwargs['f_S_integral_indefinite']
+    if ('f_chord' in kwargs):
+        y = sympy.Symbol('y')
+        f_chord = kwargs['f_chord']
+        vChord = []
+        for y in vY:
+            vChord.append(f_chord(y,c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2))
+        vChord = np.asarray(vChord)
+        plt.plot(vY, vChord, color="red", linewidth=2.5, linestyle="-", label=r'local chord $c$ (m)')
+
+    if ('f_Xle' in kwargs):
+        y = sympy.Symbol('y')
+        f_Xle = kwargs['f_Xle']
+        vXle = []
+        for y in vY:
+            vXle.append(f_Xle(y, b_k, b, Lambda_le_1, Lambda_le_2))
+        vXle = np.asarray(vXle)
+        plt.plot(vY, vXle, color="green", linewidth=2.5, linestyle="-", label=r'local l.e. coordinate $X_{\mathrm{le}}$ (m)')
+        
+    if ('f_twist' in kwargs):
+        y = sympy.Symbol('y')
+        f_twist = kwargs['f_twist']
+        vTwist = []
+        for y in vY:
+            vTwist.append(f_twist(y, eps_k, eps_t, b_k, b))
+        vTwist = np.asarray(vTwist)
+        plt.plot(vY, vTwist*180/np.pi, color="blue",  linewidth=2.5, linestyle="-", label=r"local $\epsilon_{\mathrm{g}}$ (deg)")
+
+    if ('f_alpha0l' in kwargs):
+        y = sympy.Symbol('y')
+        f_alpha0l = kwargs['f_alpha0l']
+        vAlpha0l = []
+        for y in vY:
+            vAlpha0l.append(f_alpha0l(y, alpha0l_r, alpha0l_k, alpha0l_t, b_k, b))
+        vAlpha0l = np.asarray(vAlpha0l)
+        plt.plot(vY, vAlpha0l*180/np.pi, color="brown",  linewidth=2.5, linestyle="-", label=r"local $\alpha_{0\ell}$ (deg)")
+
+    if ('f_S_integral' in kwargs):
+        f_S_integral = kwargs['f_S_integral']
         vS_integrand = []
         for y_ in vY:
             #print(y_)
-            val = f_S_integral_indefinite.subs(y,y_)
-            #print(val)
-            vS_integrand.append(val)
-            #vAlpha0L_integrand.append(f_alpha0L_integral_indefinite.subs(y,y_))
-            #vAlpha0L_integrand = np.asarray(vAlpha0L_integrand)
-        
+            vS_integrand.append(f_S_integral(y_, c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2))
         vS_integrand = np.asarray(vS_integrand)
-        plt.plot(vY, vS_integrand/10, color="orange",  linewidth=2.5, linestyle="-", dashes=[1000,1], marker="." ,
-                 label=r"Integrand function $0.1\,\int c(y)\mathrm{d}y$ (m${}^2$)")
-                 
+        plt.plot(vY, vS_integrand,  linewidth=2.5, linestyle="-", dashes=[1000,1], marker="." ,
+                 label=r"function $c(y)$ (m)")         
         # shaded region --> http://matplotlib.org/examples/showcase/integral_demo.html
-        vertices = [(0, 0)] + list(zip(vY, vS_integrand/10)) + [(b/2, 0)]
+        vertices = [(0, 0)] + list(zip(vY, vS_integrand)) + [(b/2, 0)]
         poly = Polygon(vertices, facecolor="green", alpha=0.3, edgecolor="none")
         ax0.add_patch(poly)
 
+    if ('f_mac_integral' in kwargs):
+        f_mac_integral = kwargs['f_mac_integral']
+        vMac_integrand = []
+        for y_ in vY:
+            vMac_integrand.append(f_mac_integral(y_, c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2))
+        vMac_integrand = np.asarray(vMac_integrand)
+        plt.plot(vY, vMac_integrand, linewidth=2.5, linestyle="-", dashes=[1000,1], marker="." ,
+                 label=r"function $c^2(y)$ (m${}^2$)")         
+        # shaded region --> http://matplotlib.org/examples/showcase/integral_demo.html
+        vertices = [(0, 0)] + list(zip(vY, vMac_integrand)) + [(b/2, 0)]
+        poly = Polygon(vertices, facecolor="orange", alpha=0.3, edgecolor="none")
+        ax0.add_patch(poly)
+
+    if ('f_Xle_mac_integral' in kwargs):
+        f_Xle_mac_integral = kwargs['f_Xle_mac_integral']
+        vXle_mac_integrand = []
+        for y_ in vY:
+            vXle_mac_integrand.append(f_Xle_mac_integral(y_, c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2))
+        vXle_mac_integrand = np.asarray(vXle_mac_integrand)
+        plt.plot(vY, vXle_mac_integrand, linewidth=2.5, linestyle="-", dashes=[1000,1], marker="." ,
+                 label=r"function $X_{\mathrm{le}}(y)\,c(y)$ (m${}^2$)")         
+        # shaded region --> http://matplotlib.org/examples/showcase/integral_demo.html
+        vertices = [(0, 0)] + list(zip(vY, vXle_mac_integrand)) + [(b/2, 0)]
+        poly = Polygon(vertices, facecolor="blue", alpha=0.3, edgecolor="none")
+        ax0.add_patch(poly)
+
+    if ('f_Y_mac_integral' in kwargs):
+        f_Y_mac_integral = kwargs['f_Y_mac_integral']
+        vY_mac_integrand = []
+        for y_ in vY:
+            vY_mac_integrand.append(f_Y_mac_integral(y_, c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2))
+        vY_mac_integrand = np.asarray(vY_mac_integrand)
+        plt.plot(vY, vY_mac_integrand, linewidth=2.5, linestyle="-", dashes=[1000,1], marker="." ,
+                 label=r"function $y\,c(y)$ (m${}^2$)")         
+        # shaded region --> http://matplotlib.org/examples/showcase/integral_demo.html
+        vertices = [(0, 0)] + list(zip(vY, vY_mac_integrand)) + [(b/2, 0)]
+        poly = Polygon(vertices, facecolor="brown", alpha=0.3, edgecolor="none")
+        ax0.add_patch(poly)
+
     if ('f_alpha0L_integral_indefinite' in kwargs):
-        y = Symbol('y')
+        y = sympy.Symbol('y')
         f_alpha0L_integral_indefinite = kwargs['f_alpha0L_integral_indefinite']
         vAlpha0L_integrand = []
         for y_ in vY:
@@ -231,17 +289,14 @@ def plot_wing_functions(c_r, c_k, c_t,
             vAlpha0L_integrand.append(val)
             #vAlpha0L_integrand.append(f_alpha0L_integral_indefinite.subs(y,y_))
             #vAlpha0L_integrand = np.asarray(vAlpha0L_integrand)
-        
         vAlpha0L_integrand = np.asarray(vAlpha0L_integrand)
         plt.plot(vY, vAlpha0L_integrand, color="orange",  linewidth=2.5, linestyle="-", dashes=[1000,1], marker="." ,
-                 label=r"Integrand function $\big(\alpha_{0\ell} - \epsilon_{\mathrm{g}}\big) c$ (rad m)")
-                 
+                 label=r"Integrand function $\big(\alpha_{0\ell} - \epsilon_{\mathrm{g}}\big) c$ (rad m)")         
         # shaded region --> http://matplotlib.org/examples/showcase/integral_demo.html
         vertices = [(0, 0)] + list(zip(vY, vAlpha0L_integrand)) + [(b/2, 0)]
         poly = Polygon(vertices, facecolor="orange", alpha=0.5, edgecolor="none")
         ax0.add_patch(poly)
 
-    
     # shaded region --> http://matplotlib.org/examples/showcase/integral_demo.html
     #vertices = [(0, 0)] + list(zip(vY, vIntegrand*180/np.pi)) + [(b/2, 0)]
     #poly = Polygon(vertices, facecolor="orange", alpha=0.5, edgecolor="none")
@@ -249,24 +304,46 @@ def plot_wing_functions(c_r, c_k, c_t,
     
     plt.legend(loc='upper center', fontsize=18)
     
-    tipLine, = plt.plot([b/2,b/2], [-4, 7], color="gray", linewidth=1.0, linestyle="-")
+    if ('xmin' in kwargs):
+        xmin = kwargs['xmin']
+    else:
+        xmin = 0
+
+    if ('xmax' in kwargs):
+        xmax = kwargs['xmax']
+    else:
+        xmax = 1.1*b/2
+
+    if ('ymin' in kwargs):
+        ymin = kwargs['ymin']
+    else:
+        ymin = -5
+
+    if ('ymax' in kwargs):
+        ymax = kwargs['ymax']
+    else:
+        ymax = 8
+    
+    plt.axis([xmin, xmax, ymin, ymax])
+    
+    # some annotations
+    tipLine, = plt.plot([b/2,b/2], [0.9*ymin, 0.8*ymax], color="gray", linewidth=1.0, linestyle="-")
     tipLine.set_dashes([8, 4]) 
     plt.annotate(r'$y=\frac{1}{2}\,b$',
-                 xy=(b/2, -4), xycoords='data',
+                 xy=(b/2, 0.65*ymin), xycoords='data',
                  xytext=(40, -40), textcoords='offset points', fontsize=22,
                  arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=.5"))
 
-    kinkLine, = plt.plot([b_k/2,b_k/2], [-4, 7], color="gray", linewidth=1.0, linestyle="-")
+    kinkLine, = plt.plot([b_k/2,b_k/2], [0.9*ymin, 0.8*ymax], color="gray", linewidth=1.0, linestyle="-")
     kinkLine.set_dashes([8, 4]) 
     plt.annotate(r'$y=\frac{1}{2}\,b_{\mathrm{k}}$',
-                 xy=(b_k/2, -4), xycoords='data',
+                 xy=(b_k/2, 0.65*ymin), xycoords='data',
                  xytext=(40, -40), textcoords='offset points', fontsize=22,
                  arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=.5"))
     
-    zeroYLine, = plt.plot([-1,b/2], [0,0],  color="gray", linewidth=1.0, linestyle="-")
+    zeroYLine, = plt.plot([xmin,xmax], [0,0],  color="gray", linewidth=1.0, linestyle="-")
     zeroYLine.set_dashes([8, 4]) 
     
-    plt.axis([0, 1.1*b/2, -5, 8])
     plt.title('Wing functions', fontsize=22)
     plt.xlabel('$y$ (m)', fontsize=22)
     #plt.ylabel('$X$ (m)', fontsize=22)
@@ -276,7 +353,7 @@ def plot_wing_functions(c_r, c_k, c_t,
     ax.spines['right'].set_color('none')
     ax.spines['top'].set_color('none')
     ax.xaxis.set_ticks_position('bottom')
-    ax.spines['bottom'].set_position(('data',-6))
+    ax.spines['bottom'].set_position(('outward',10))
     ax.yaxis.set_ticks_position('left')
-    ax.spines['left'].set_position(('data',-0.1))    
+    ax.spines['left'].set_position(('outward',10))    
     plt.show()
