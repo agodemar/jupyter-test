@@ -142,15 +142,17 @@ def plot_planform(c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2, *args, **kwar
     ax.spines['right'].set_color('none')
     ax.spines['top'].set_color('none')
     ax.xaxis.set_ticks_position('bottom')
-    ax.spines['bottom'].set_position(('data',c_r + 1.15*(dy_k + dy)))
+    ax.spines['bottom'].set_position(('outward',10)) # outward by 10 points
     ax.yaxis.set_ticks_position('left')
-    ax.spines['left'].set_position(('data',-0.1*b/2))
+    ax.spines['left'].set_position(('data',-0.07*b/2))
 
     plt.show()
 
 #----------------------------------------------------------
-def plot_wing_functions(c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2, 
-                        f_chords, f_Xle):
+def plot_wing_functions(c_r, c_k, c_t, 
+                    eps_k, eps_t, alpha0l_r, alpha0l_k, alpha0l_t,
+                    b_k, b, Lambda_le_1, Lambda_le_2, 
+                    f_chords, f_Xle, f_twist, f_alpha0l):
     """
     
     See: http://www.scipy-lectures.org/intro/matplotlib/matplotlib.html
@@ -163,16 +165,21 @@ def plot_wing_functions(c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2,
     vY = np.sort(np.unique(vY1))
     vChord = []
     vXle = []
+    vTwist = []
+    vAlpha0l = []
     for y in vY:
         vChord.append(f_chords(c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2, y))
         vXle.append(f_Xle(b_k, b, Lambda_le_1, Lambda_le_2, y))
+        vTwist.append(f_twist(eps_k, eps_t, b_k, b, y))
+        vAlpha0l.append(f_alpha0l(alpha0l_r, alpha0l_k, alpha0l_t, b_k, b, y))
         
-    #vAlpha0L = A_alpha*vY + B_alpha
-    #vEpsilon = A_eps*vY
-    #vIntegrand = (vAlpha0L - vEpsilon)*vChord
+    vChord = np.asarray(vChord)
+    vTwist = np.asarray(vTwist)
+    vXle = np.asarray(vXle)
+    vAlpha0l = np.asarray(vAlpha0l)
     
     # Create a figure of size WxH inches, DPI dots per inch
-    fig = plt.figure(figsize=(10, 12), dpi=300)
+    fig = plt.figure(figsize=(11, 12), dpi=300)
     
     # Create a new subplot from a grid of 1x1
     ax0 = plt.subplot(1, 1, 1)
@@ -182,8 +189,8 @@ def plot_wing_functions(c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2,
     
     plt.plot(vY, vChord, color="red", linewidth=2.5, linestyle="-", label=r'local chord $c$ (m)')
     plt.plot(vY, vXle, color="green", linewidth=2.5, linestyle="-", label=r'local l.e. coordinate $X_{\mathrm{le}}$ (m)')
-    #plt.plot(vY, vAlpha0L*180/np.pi, color="green",  linewidth=2.5, linestyle="-", label=r"local $\alpha_{0\ell}$ (deg)")
-    #plt.plot(vY, vEpsilon*180/np.pi, color="blue",  linewidth=2.5, linestyle="-", label=r"local $\epsilon_{\mathrm{g}}$ (deg)")
+    plt.plot(vY, vTwist*180/np.pi, color="blue",  linewidth=2.5, linestyle="-", label=r"local $\epsilon_{\mathrm{g}}$ (deg)")
+    plt.plot(vY, vAlpha0l*180/np.pi, color="brown",  linewidth=2.5, linestyle="-", label=r"local $\alpha_{0\ell}$ (deg)")
     #plt.plot(vY, vIntegrand*180/np.pi, color="brown",  linewidth=2.5, linestyle="-", 
     #         label=r"Integrand function $\big(\alpha_{0\ell}$ - \epsilon_{\mathrm{g}}\big) c$ (deg m)")
     
@@ -194,14 +201,21 @@ def plot_wing_functions(c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2,
     
     plt.legend(loc='upper center', fontsize=18)
     
-    tipLine, = plt.plot([b/2,b/2], [-4, 7], color="gray", linewidth=1.0)
+    tipLine, = plt.plot([b/2,b/2], [-4, 7], color="gray", linewidth=1.0, linestyle="-")
     tipLine.set_dashes([8, 4]) 
-    plt.annotate(r'$y=\frac{b}{2}$',
+    plt.annotate(r'$y=\frac{1}{2}\,b$',
                  xy=(b/2, -4), xycoords='data',
                  xytext=(40, -40), textcoords='offset points', fontsize=22,
                  arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=.5"))
+
+    kinkLine, = plt.plot([b_k/2,b_k/2], [-4, 7], color="gray", linewidth=1.0, linestyle="-")
+    kinkLine.set_dashes([8, 4]) 
+    plt.annotate(r'$y=\frac{1}{2}\,b_{\mathrm{k}}$',
+                 xy=(b_k/2, -4), xycoords='data',
+                 xytext=(40, -40), textcoords='offset points', fontsize=22,
+                 arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=.5"))
     
-    zeroYLine, = plt.plot([-1,b/2], [0,0],  color="gray", linewidth=1.0)
+    zeroYLine, = plt.plot([-1,b/2], [0,0],  color="gray", linewidth=1.0, linestyle="-")
     zeroYLine.set_dashes([8, 4]) 
     
     plt.axis([0, 1.1*b/2, -5, 8])
