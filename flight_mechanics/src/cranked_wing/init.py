@@ -287,23 +287,21 @@ def plot_wing_functions(c_r, c_k, c_t,
         poly = Polygon(vertices, facecolor="brown", alpha=0.3, edgecolor="none")
         ax0.add_patch(poly)
 
-    if ('f_alpha0L_integral_indefinite' in kwargs):
-        y = sympy.Symbol('y')
-        f_alpha0L_integral_indefinite = kwargs['f_alpha0L_integral_indefinite']
+    if ('f_alpha0L_integral' in kwargs):
+        f_alpha0L_integral = kwargs['f_alpha0L_integral']
         vAlpha0L_integrand = []
         for y_ in vY:
-            #print(y_)
-            val = f_alpha0L_integral_indefinite.subs(y,y_)
-            #print(val)
-            vAlpha0L_integrand.append(val)
-            #vAlpha0L_integrand.append(f_alpha0L_integral_indefinite.subs(y,y_))
-            #vAlpha0L_integrand = np.asarray(vAlpha0L_integrand)
+            vAlpha0L_integrand.append(
+                f_alpha0L_integral(y_, c_r, c_k, c_t, 
+                                   eps_k, eps_t, alpha0l_r, alpha0l_k, alpha0l_t, 
+                                   b_k, b, Lambda_le_1, Lambda_le_2)
+                )
         vAlpha0L_integrand = np.asarray(vAlpha0L_integrand)
-        plt.plot(vY, vAlpha0L_integrand, color="orange",  linewidth=2.5, linestyle="-", dashes=[1000,1], marker="." ,
-                 label=r"Integrand function $\big(\alpha_{0\ell} - \epsilon_{\mathrm{g}}\big) c$ (rad m)")         
+        plt.plot(vY, vAlpha0L_integrand*180/np.pi, linewidth=2.5, linestyle="-", dashes=[1000,1], marker="." ,
+                 label=r"function $\big(\alpha_{0\ell} - \epsilon_{\mathrm{g}}\big) c$ (deg$\,$m)")         
         # shaded region --> http://matplotlib.org/examples/showcase/integral_demo.html
-        vertices = [(0, 0)] + list(zip(vY, vAlpha0L_integrand)) + [(b/2, 0)]
-        poly = Polygon(vertices, facecolor="orange", alpha=0.5, edgecolor="none")
+        vertices = [(0, 0)] + list(zip(vY, vAlpha0L_integrand*180/np.pi)) + [(b/2, 0)]
+        poly = Polygon(vertices, facecolor="red", alpha=0.3, edgecolor="none")
         ax0.add_patch(poly)
 
     # shaded region --> http://matplotlib.org/examples/showcase/integral_demo.html
