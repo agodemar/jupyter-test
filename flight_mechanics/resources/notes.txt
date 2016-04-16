@@ -7,3 +7,5 @@ Resize svg images:
 > python svg-resize.py -x 220 -f Wing_Aerodynamic_Center.svg Wing_Aerodynamic_Center_WEB.svg
 
 > python svg-resize.py -x 220 -f cranked_wing.svg cranked_wing_WEB.svg
+
+> 

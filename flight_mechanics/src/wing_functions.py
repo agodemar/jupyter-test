@@ -1,3 +1,5 @@
+import math
+
 # c(y)
 def f_chord(y, c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2):
     if y >= 0 and y <= b_k/2:
