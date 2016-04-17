@@ -8,4 +8,4 @@ Resize svg images:
 
 > python svg-resize.py -x 220 -f cranked_wing.svg cranked_wing_WEB.svg
 
-> 
+> python svg-resize.py -x 220 -f equivalent_wing.svg equivalent_wing_WEB.svg

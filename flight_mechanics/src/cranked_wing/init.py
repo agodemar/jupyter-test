@@ -110,6 +110,16 @@ def plot_planform(c_r, c_k, c_t, b_k, b, Lambda_le_1, Lambda_le_2, *args, **kwar
                          xy=(Y_mac, X_le_mac), xycoords='data',
                          xytext=(20, 30), textcoords='offset points', fontsize=12,
                          arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=.2")) # 
+
+    if ('X_le_r_eq' in kwargs) and ('c_r_eq' in kwargs):
+        X_le_r_eq = kwargs['X_le_r_eq']
+        c_r_eq = kwargs['c_r_eq']
+        vertices = [(0, X_le_r_eq)] + [(b/2, dy)] + [(b/2, dy+c_t)] + [(0, X_le_r_eq + c_r_eq)]
+        poly = Polygon(vertices, facecolor="yellow", alpha=0.5)
+        poly.set_edgecolor("brown")
+        poly.set_linewidth(2)
+        ax0 = plt.gca()  # gca stands for 'get current axis'
+        ax0.add_patch(poly)
         
     if 'X_ac' in kwargs:
         X_ac = kwargs['X_ac']
