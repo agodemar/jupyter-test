@@ -16,6 +16,9 @@ from scipy.interpolate import interp1d, interp2d
 
 import h5py
 
+# https://docs.python.org/3.5/library/shelve.html
+import shelve
+
 import sympy
 
 from IPython.display import display, Math, Latex, SVG
@@ -389,3 +392,77 @@ def plot_wing_functions(c_r, c_k, c_t,
     ax.spines['left'].set_position(('outward',hshift_yaxis))    
 
     plt.show()
+
+#----------------------------------------------------------
+def retrieve_stored_data(file_name):
+    store = shelve.open(file_name, flag='r')
+    
+    #print('-------- Database content, key => value --------')
+    #for key in store:
+    #    print(key, '=> {0}'.format(store[key]))
+    
+    #store.close()
+    return store # not closed!
+
+#----------------------------------------------------------
+def data_summary(store):
+
+    #print('-------- Database content, key => value --------')
+    #for key in store:
+    #    print(key, '=> {0}'.format(store[key]))
+
+    c_r = store['c_r']
+    c_k = store['c_k']
+    c_t = store['c_t']
+    eps_k = store['eps_k']
+    eps_t = store['eps_t']
+    alpha0l_r = store['alpha0l_r']
+    alpha0l_k = store['alpha0l_k']
+    alpha0l_t = store['alpha0l_t']
+    b_k = store['b_k']
+    b = store['b']
+    Lambda_le_1 = store['Lambda_le_1']
+    Lambda_le_2 = store['Lambda_le_2']
+    # f_chord = store['f_chord']
+    S_ref = store['S_ref']
+    c_mac = store['c_mac']
+    X_le_mac = store['X_le_mac']
+    Y_mac = store['Y_mac']
+    alpha0L = store['alpha0L']
+    return Latex(
+        r'\begin{array}{rl}'
+        +  r'\text{root chord,}\, c_{\mathrm{r}}: & ' + r'{0}'.format(c_r) + r'\,\text{m}'
+        +  r'\\'
+        +  r'\text{kink chord,}\, c_{\mathrm{k}}: & ' + r'{0}'.format(c_k) + r'\,\text{m}'
+        +  r'\\'
+        +  r'\text{tip chord,}\, c_{\mathrm{t}}: & ' + r'{0}'.format(c_t) + r'\,\text{m}'
+        +  r'\\'
+        +  r'\text{semispan, inner panel}\, \frac{1}{2}b_{\mathrm{k}}: & ' + r'{0}'.format(b_k/2) + r'\,\text{m}'
+        +  r'\\'
+        +  r'\text{semispan,}\, \frac{1}{2}b: & ' + r'{0}'.format(b/2) + r'\,\text{m}'
+        +  r'\\'
+        +  r'\text{leading edge sweep, inner panel,}\, \Lambda_{\mathrm{le},1}: &' 
+        +    r'{0}'.format(Lambda_le_1*180/math.pi) + r'\,\text{deg}'
+        +  r'\\'
+        +  r'\text{leading edge sweep, outer panel,}\, \Lambda_{\mathrm{le},2}: &' 
+        +    r'{0}'.format(Lambda_le_2*180/math.pi) + r'\,\text{deg}'
+        +  r'\\'
+        +  r'\text{kink section geometric twist,}\, \epsilon_{\mathrm{g,k}}: & ' + r'{0:.4}'.format(eps_k*180/math.pi) + r'\,\text{deg}'
+        +  r'\\'
+        +  r'\text{tip section geometric twist,}\, \epsilon_{\mathrm{g,t}}: & ' + r'{0:.4}'.format(eps_t*180/math.pi) + r'\,\text{deg}'
+        +  r'\\'
+        +  r'\text{root profile zero-lift angle of attack,}\, \alpha_{0\ell,\mathrm{r}}: & ' + r'{0:.4}'.format(alpha0l_r*180/math.pi) + r'\,\text{deg}'
+        +  r'\\'
+        +  r'\text{kink profile zero-lift angle of attack,}\, \alpha_{0\ell,\mathrm{k}}: & ' + r'{0:.4}'.format(alpha0l_k*180/math.pi) + r'\,\text{deg}'
+        +  r'\\'
+        +  r'\text{tip profile zero-lift angle of attack,}\, \alpha_{0\ell,\mathrm{t}}: & ' + r'{0:.4}'.format(alpha0l_t*180/math.pi) + r'\,\text{deg}'
+        +  r'\\[1em] \hline'
+        +  r'\text{mean aerodynamic chord (MAC),}\, \bar{c}: & ' + r'{0:.4}'.format(c_mac) + r'\,\text{m}'
+        +  r'\\'
+        +  r'\text{MAC leading edge longitudinal position,}\, X_{\mathrm{le},\bar{c}}: & ' + r'{0:.4}'.format(X_le_mac) + r'\,\text{m}'
+        +  r'\\'
+        +  r'\text{MAC leading edge spanwise position,}\, Y_{\bar{c}}: & ' + r'{0:.4}'.format(Y_mac) + r'\,\text{m}'
+        +  r'\\'
+        +  r'\text{wing zero-lift angle of attack,}\, \alpha_{0L,\mathrm{W}}: & ' + r'{0:.3}'.format(alpha0L*180/math.pi) + r'\,\text{deg}'
+        +r'\end{array}'
+    )
