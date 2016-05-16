@@ -8,7 +8,7 @@
   -->
 
   <use aircraft="c172x" initialize="elevator_doublet_init"/>
-  <run start="0.0" end="40" dt="0.0083333">
+  <run start="0.0" end="60" dt="0.0083333">
 
     <property> simulation/notify-time-trigger </property>
     <property value="1"> simulation/run_id </property>
@@ -26,7 +26,7 @@
     <event name="Trim">
       <description>Trim at the initial conditions state</description>
       <condition>
-        simulation/sim-time-sec gt 1.0
+        simulation/sim-time-sec gt 0.5
       </condition>
       <set name="simulation/do_simple_trim" value="1"/>
       <notify>
@@ -67,51 +67,26 @@
       </notify>
     </event>
 
-    <event name="Re-Trim at 20 seconds">
-      <description>Trim at the initial conditions state</description>
-      <condition>
-        simulation/sim-time-sec gt 20.0
-      </condition>
-      <set name="simulation/do_simple_trim" value="1"/>
+    <event name="Trigger wing leveler">
+	  <description>Set wing leveler on</description>
+      <condition> simulation/sim-time-sec >= 30.0 </condition>
+      <set name="ap/roll-attitude-mode"  value="0"/>
+      <set name="ap/autopilot-roll-on"   value="1"/>
       <notify>
-        <property>velocities/vc-kts</property>
-        <property>velocities/vt-fps</property>
-        <property>attitude/phi-rad</property>
-        <property>attitude/theta-rad</property>
-        <property>attitude/psi-rad</property>
+        <property>velocities/p-rad_sec</property>
+        <property>velocities/q-rad_sec</property>
+        <property>velocities/r-rad_sec</property>
       </notify>
     </event>
 
-    <event name="Aileron doublet" continuous="true">
-      <description>
-        Do an elevator doublet from between
-        25 and 27 seconds.
-      </description>
-      <condition>
-        simulation/sim-time-sec ge 25
-        simulation/sim-time-sec le 27
-      </condition>
-      <set name="fcs/aileron-cmd-norm">
-        <function>
-          <sin>
-            <product>
-              <difference>
-                <property> simulation/sim-time-sec </property>
-                <value> 25 </value>
-              </difference>
-              <value> 3.1415927 </value>
-            </product>
-          </sin>
-        </function>
-      </set>
-      <notify>
-        <property>velocities/vc-kts</property>
-        <property>velocities/vt-fps</property>
-        <property>attitude/phi-rad</property>
-        <property>attitude/theta-rad</property>
-        <property>attitude/psi-rad</property>
-      </notify>
-    </event>
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
   </run>
 </runscript>

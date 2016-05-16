@@ -1217,20 +1217,34 @@ Use this model for development purposes ONLY!!!
     Function: aero/coefficient/Cnr
     Function: aero/coefficient/Cnda
     Function: aero/coefficient/Cndr
-    Function: velocities/pi-deg_sec
 
   Output data set: 0  
-    Function: 
+
+  Output data set: 1  
+
+  Output data set: 2  
+
+  Output data set: 3  
+
+  Output data set: 4  
+
+  Output data set: 5  
+
+  Output data set: 6  
+
+  Output data set: 7  
+
+  Output data set: 8  
     Function: 
 
 Script: "C172 elevator doublet"
-  begins at 0.0000 seconds and runs to 40.0082 seconds with dt = 0.008333 (121.000000 Hz)
+  begins at 0.0000 seconds and runs to 60.0082 seconds with dt = 0.008333 (121.000000 Hz)
 
-Local property: notify-time-trigger = 0.000000
 Local property: run_id = 1.000000
+Local property: notify-time-trigger = 0.000000
 Event 0 (Trim):
   When first triggered, executes once  if all of the following are true: {
-    sim-time-sec gt 1.000000
+    sim-time-sec gt 0.500000
   }
   Actions taken:
     {
@@ -1263,52 +1277,193 @@ Event 1 (Elevator doublet):
       attitude/psi-rad
     }
 
-Event 2 (Re-Trim at 20 seconds):
+Event 2 (Trigger wing leveler):
   When first triggered, executes once  if all of the following are true: {
-    sim-time-sec gt 20.000000
+    sim-time-sec >= 30.000000
   }
   Actions taken:
     {
-      set simulation/do_simple_trim to 1.000000 (constant via step)
+      set ap/roll-attitude-mode to 0.000000 (constant via step)
+      set ap/autopilot-roll-on to 1.000000 (constant via step)
     }
   Notifications:
     {
-      velocities/vc-kts
-      velocities/vt-fps
-      attitude/phi-rad
-      attitude/theta-rad
-      attitude/psi-rad
+      velocities/p-rad_sec
+      velocities/q-rad_sec
+      velocities/r-rad_sec
     }
 
-Event 3 (Aileron doublet):
-  While true, always executes  if all of the following are true: {
-    sim-time-sec ge 25.000000
-    sim-time-sec le 27.000000
-  }
-  Actions taken:
-    {
-      set fcs/aileron-cmd-norm to function value (constant via step)
-    }
-  Notifications:
-    {
-      velocities/vc-kts
-      velocities/vt-fps
-      attitude/phi-rad
-      attitude/theta-rad
-      attitude/psi-rad
-    }
-
-    Simulation parameters logged
-    Rate parameters logged
+    Properties logged:
+      - aileron-cmd-norm
+      - elevator-cmd-norm
+      - rudder-cmd-norm
+      - flap-cmd-norm
+      - elevator-pos-rad
+      - elevator-pos-deg
+      - elevator-pos-norm
+      - rudder-pos-rad
+      - rudder-pos-deg
+      - rudder-pos-norm
+      - flap-pos-rad
+      - flap-pos-deg
+      - flap-pos-norm
+      - left-aileron-pos-rad
+      - left-aileron-pos-deg
+      - left-aileron-pos-norm
+      - right-aileron-pos-rad
+      - right-aileron-pos-deg
+      - right-aileron-pos-norm
+      - throttle-cmd-norm
+      - throttle-pos-norm
+    Properties logged:
+      - fbx-aero-lbs
+      - fby-aero-lbs
+      - fbz-aero-lbs
+      - fwx-aero-lbs
+      - fwy-aero-lbs
+      - fwz-aero-lbs
+      - fbx-gear-lbs
+      - fby-gear-lbs
+      - fbz-gear-lbs
+      - fbx-total-lbs
+      - fby-total-lbs
+      - fbz-total-lbs
+      - load-factor
+      - l-aero-lbsft
+      - m-aero-lbsft
+      - n-aero-lbsft
+      - l-gear-lbsft
+      - m-gear-lbsft
+      - n-gear-lbsft
+      - l-total-lbsft
+      - m-total-lbsft
+      - n-total-lbsft
+    Properties logged:
+      - alpha-rad
+      - beta-rad
+      - alpha-deg
+      - beta-deg
+      - Re
+      - qbar-psf
+      - alphadot-rad_sec
+      - betadot-rad_sec
+      - alphadot-deg_sec
+      - betadot-deg_sec
+      - CDo
+      - CDDf
+      - CDwbh
+      - CDDe
+      - CDbeta
+      - CYb
+      - CYda
+      - CYdr
+      - CYp
+      - CYr
+      - CLwbh
+      - CLDf
+      - CLDe
+      - CLadot
+      - CLq
+      - Clb
+      - Clp
+      - Clr
+      - Clda
+      - Cldr
+      - Cmo
+      - Cmalpha
+      - CmDf
+      - Cmq
+      - Cmadot
+      - Cmde
+      - Cnb
+      - Cnp
+      - Cnr
+      - Cnda
+      - Cndr
+    Propagate parameters logged
+    Properties logged:
+      - h-sl-ft
+      - h-sl-meters
+      - h-agl-ft
+      - lat-geod-rad
+      - lat-geod-deg
+      - geod-alt-ft
+      - lat-gc-deg
+      - long-gc-deg
+      - terrain-elevation-asl-ft
+      - distance-from-start-lon-mt
+      - distance-from-start-lat-mt
+      - distance-from-start-mag-mt
+    Properties logged:
+      - u-fps
+      - v-fps
+      - w-fps
+      - p-rad_sec
+      - q-rad_sec
+      - r-rad_sec
+      - p-aero-rad_sec
+      - q-aero-rad_sec
+      - r-aero-rad_sec
+      - phidot-rad_sec
+      - thetadot-rad_sec
+      - psidot-rad_sec
+      - u-aero-fps
+      - v-aero-fps
+      - w-aero-fps
+      - vc-fps
+      - vt-fps
+      - mach
+    Properties logged:
+      - pdot-rad_sec2
+      - qdot-rad_sec2
+      - rdot-rad_sec2
+      - udot-ft_sec2
+      - vdot-ft_sec2
+      - wdot-ft_sec2
+      - a-pilot-x-ft_sec2
+      - a-pilot-y-ft_sec2
+      - a-pilot-z-ft_sec2
+      - n-pilot-x-norm
+      - n-pilot-y-norm
+      - n-pilot-z-norm
+    Properties logged:
+      - phi-rad
+      - theta-rad
+      - psi-rad
+      - roll-rad
+      - pitch-rad
+      - heading-true-rad
+    Properties logged:
+      - contents-lbs
+      - contents-lbs
+      - starter_cmd
+      - magneto_cmd
+      - active_engine
+      - total-fuel-lbs
+      - pitch-angle-rad
+      - yaw-angle-rad
+      - advance-ratio
+      - blade-angle
+      - thrust-coefficient
+      - propeller-rpm
+      - helical-tip-Mach
+      - constant-speed-mode
+      - prop-induced-velocity_fps
+      - thrust-lbs
+      - fuel-flow-rate-pps
+      - power-hp
+      - bsfc-lbs_hphr
+      - volumetric-efficiency
+      - map-pa
+      - map-inhg
+      - air-intake-impedance-factor
+      - ram-air-factor
+      - boost-speed
+      - throttle-cmd-norm
+      - throttle-pos-norm
     Velocity parameters logged
-    Mass parameters logged
     Propagate parameters logged
     FCS parameters logged
-    Propulsion parameters logged
-    Properties logged:
-      - vrp-gc-latitude_deg
-      - vrp-longitude_deg
-      - vrp-radius-ft
 
   Mass Properties Report (English units: lbf, in, slug-ft^2)
                                       Weight    CG-X    CG-Y    CG-Z         Ixx         Iyy         Izz         Ixy         Ixz         Iyz
@@ -1357,7 +1512,7 @@ State Report at sim time: 0.000000 seconds
 
 ---- JSBSim Execution beginning ... --------------------------------------------
 
-Start: Monday May 02 2016 13:00:45 (HH:MM:SS)
+Start: Monday May 16 2016 12:20:52 (HH:MM:SS)
   Full Trim
 
   Trim successful
@@ -1367,9 +1522,9 @@ Start: Monday May 02 2016 13:00:45 (HH:MM:SS)
             Pitch Trim:   0.20  qdot: -6.04e-08 Tolerance: 1.000000e-04  Passed
             Roll Angle:  -0.11  vdot:  1.93e-05 Tolerance: 1.000000e-03  Passed
               Ailerons:  -0.04  pdot:  4.58e-06 Tolerance: 1.000000e-04  Passed
-                Rudder:  -0.00  rdot: -4.69e-19 Tolerance: 1.000000e-04  Passed
+                Rudder:  -0.00  rdot: -8.65e-19 Tolerance: 1.000000e-04  Passed
 
-Trim (Event 0) executed at time: 1.008329
+Trim (Event 0) executed at time: 0.508331
     velocities/vc-kts = 93.210854
     velocities/vt-fps = 162.029760
     attitude/phi-rad = -0.001934
@@ -1378,36 +1533,16 @@ Trim (Event 0) executed at time: 1.008329
 
 
 Elevator doublet (Event 1) executed at time: 5.008313
-    velocities/vc-kts = 93.209570
-    velocities/vt-fps = 162.027554
-    attitude/phi-rad = -0.001928
-    attitude/theta-rad = 0.020468
-    attitude/psi-rad = 3.490649
-
-  Full Trim
-
-  Trim successful
-  Trim Results: 
-       Angle of Attack:   1.17  wdot: -1.41e-04 Tolerance: 1.000000e-03  Passed
-              Throttle:   0.69  udot: -7.77e-05 Tolerance: 1.000000e-03  Passed
-            Pitch Trim:   0.20  qdot: -6.04e-08 Tolerance: 1.000000e-04  Passed
-            Roll Angle:  -0.11  vdot:  1.93e-05 Tolerance: 1.000000e-03  Passed
-              Ailerons:  -0.04  pdot:  4.58e-06 Tolerance: 1.000000e-04  Passed
-                Rudder:  -0.00  rdot: -1.27e-18 Tolerance: 1.000000e-04  Passed
-
-Re-Trim at 20 seconds (Event 2) executed at time: 20.008253
-    velocities/vc-kts = 93.210862
-    velocities/vt-fps = 162.029760
-    attitude/phi-rad = -0.001934
-    attitude/theta-rad = 0.020433
-    attitude/psi-rad = 3.490659
-
-
-Aileron doublet (Event 3) executed at time: 25.008233
-    velocities/vc-kts = 93.208974
-    velocities/vt-fps = 162.026519
-    attitude/phi-rad = -0.001925
-    attitude/theta-rad = 0.020470
+    velocities/vc-kts = 93.209278
+    velocities/vt-fps = 162.027054
+    attitude/phi-rad = -0.001926
+    attitude/theta-rad = 0.020471
     attitude/psi-rad = 3.490648
 
-End: Monday May 02 2016 13:00:45 (HH:MM:SS)
+
+Trigger wing leveler (Event 2) executed at time: 30.008213
+    velocities/p-rad_sec = -0.001910
+    velocities/q-rad_sec = 0.118511
+    velocities/r-rad_sec = 0.078174
+
+End: Monday May 16 2016 12:20:53 (HH:MM:SS)

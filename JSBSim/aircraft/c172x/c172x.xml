@@ -1204,6 +1204,7 @@
     <input port="1137"/>
 -->
 
+<!--
     <output name="JSBout172B.csv" type="CSV" rate="10">
         <rates> ON             </rates>
         <velocities> ON        </velocities>
@@ -1224,6 +1225,7 @@
           <todegrees> <p> velocities/pi-rad_sec </p> </todegrees>
         </function>
     </output>
+-->
 
 <!---
     <output name="localhost" type="SOCKET" port="1138" rate="20">
@@ -1262,5 +1264,215 @@
         <coefficients> OFF </coefficients>
     </output> 
     -->
+	
+	<output name="c172_fcs.csv" rate="20" type="CSV">
+		<property>fcs/aileron-cmd-norm </property>             <!--  2 -->
+		<property>fcs/elevator-cmd-norm </property>		   	   <!--  3 -->
+		<property>fcs/rudder-cmd-norm </property>			   <!--  4 -->
+		<property>fcs/flap-cmd-norm </property>			   	   <!--  5 -->
+		<property>fcs/elevator-pos-rad </property>			   <!--  6 -->
+		<property>fcs/elevator-pos-deg </property>	     	   <!--  7 -->
+		<property>fcs/elevator-pos-norm </property>			   <!--  8 -->
+		<property>fcs/rudder-pos-rad </property>			   <!--  9 -->
+		<property>fcs/rudder-pos-deg </property>			   <!-- 10 -->
+		<property>fcs/rudder-pos-norm </property>			   <!-- 11 -->
+		<property>fcs/flap-pos-rad </property>				   <!-- 12 -->
+		<property>fcs/flap-pos-deg </property>				   <!-- 13 -->
+		<property>fcs/flap-pos-norm </property>				   <!-- 14 -->
+		<property>fcs/left-aileron-pos-rad </property>		   <!-- 15 -->
+		<property>fcs/left-aileron-pos-deg </property>		   <!-- 16 -->
+		<property>fcs/left-aileron-pos-norm </property>		   <!-- 17 -->
+		<property>fcs/right-aileron-pos-rad </property>		   <!-- 18 -->
+		<property>fcs/right-aileron-pos-deg </property>		   <!-- 19 -->
+		<property>fcs/right-aileron-pos-norm </property>	   <!-- 20 -->
+		<property>fcs/throttle-cmd-norm</property>			   <!-- 21 -->
+		<property>fcs/throttle-pos-norm</property>			   <!-- 22 -->
+	</output>
+	
+	<output name="c172_forces.csv" rate="20" type="CSV">
+		<property>forces/fbx-aero-lbs </property>             <!--  2 -->
+		<property>forces/fby-aero-lbs </property>             <!--  3 -->
+		<property>forces/fbz-aero-lbs </property>             <!--  4 -->
+		<property>forces/fwx-aero-lbs </property>             <!--  5 -->
+		<property>forces/fwy-aero-lbs </property>             <!--  6 -->
+		<property>forces/fwz-aero-lbs </property>             <!--  7 -->
+		<property>forces/fbx-gear-lbs </property>             <!--  8 -->
+		<property>forces/fby-gear-lbs </property>             <!--  9 -->
+		<property>forces/fbz-gear-lbs </property>             <!-- 10 -->
+		<property>forces/fbx-total-lbs </property>            <!-- 11 -->
+		<property>forces/fby-total-lbs </property>            <!-- 12 -->
+		<property>forces/fbz-total-lbs </property>            <!-- 13 -->
+		<property>forces/load-factor </property>              <!-- 14 -->
+		<property>moments/l-aero-lbsft </property>            <!-- 15 -->
+		<property>moments/m-aero-lbsft </property>            <!-- 16 -->
+		<property>moments/n-aero-lbsft </property>            <!-- 17 -->
+		<property>moments/l-gear-lbsft </property>            <!-- 18 -->
+		<property>moments/m-gear-lbsft </property>            <!-- 19 -->
+		<property>moments/n-gear-lbsft </property>            <!-- 20 -->
+		<property>moments/l-total-lbsft </property>           <!-- 21 -->
+		<property>moments/m-total-lbsft </property>           <!-- 22 -->
+		<property>moments/n-total-lbsft </property>           <!-- 23 -->
+	</output>
+	
+	<output name="c172_aero.csv" rate="20" type="CSV">
+		<property> aero/alpha-rad </property>            		<!--  2 -->
+		<property> aero/beta-rad</property>            			<!--  3 -->
+		<property> aero/alpha-deg</property>            		<!--  4 -->
+		<property> aero/beta-deg</property>            			<!--  5 -->
+		<property> aero/Re</property>            				<!--  6 -->
+		<property> aero/qbar-psf</property>            			<!--  7 -->
+		<property> aero/alphadot-rad_sec</property>            	<!--  8 -->
+		<property> aero/betadot-rad_sec</property>            	<!--  9 -->
+		<property> aero/alphadot-deg_sec</property>            	<!-- 10 -->
+		<property> aero/betadot-deg_sec</property>            	<!-- 11 -->
+		<property> aero/coefficient/CDo</property>            	<!-- 12 -->
+		<property> aero/coefficient/CDDf</property>            	<!-- 13 -->
+		<property> aero/coefficient/CDwbh</property>            <!-- 14 -->
+		<property> aero/coefficient/CDDe</property>            	<!-- 15 -->
+		<property> aero/coefficient/CDbeta</property>           <!-- 16 -->
+		<property> aero/coefficient/CYb</property>            	<!-- 17 -->
+		<property> aero/coefficient/CYda</property>            	<!-- 18 -->
+		<property> aero/coefficient/CYdr</property>            	<!-- 19 -->
+		<property> aero/coefficient/CYp</property>            	<!-- 20 -->
+		<property> aero/coefficient/CYr</property>            	<!-- 21 -->
+		<property> aero/coefficient/CLwbh</property>            <!-- 22 -->
+		<property> aero/coefficient/CLDf</property>            	<!-- 23 -->
+		<property> aero/coefficient/CLDe</property>            	<!-- 24 -->
+		<property> aero/coefficient/CLadot</property>           <!-- 25 -->
+		<property> aero/coefficient/CLq</property>            	<!-- 26 -->
+		<property> aero/coefficient/Clb</property>            	<!-- 27 -->
+		<property> aero/coefficient/Clp</property>            	<!-- 28 -->
+		<property> aero/coefficient/Clr</property>            	<!-- 29 -->
+		<property> aero/coefficient/Clda</property>            	<!-- 30 -->
+		<property> aero/coefficient/Cldr</property>            	<!-- 31 -->
+		<property> aero/coefficient/Cmo</property>           	<!-- 32 -->
+		<property> aero/coefficient/Cmalpha</property>          <!-- 33 -->
+		<property> aero/coefficient/CmDf</property>            	<!-- 34	-->
+		<property> aero/coefficient/Cmq</property>            	<!-- 35 -->
+		<property> aero/coefficient/Cmadot</property>           <!-- 36 -->
+		<property> aero/coefficient/Cmde</property>            	<!-- 37 -->
+		<property> aero/coefficient/Cnb</property>            	<!-- 38 -->
+		<property> aero/coefficient/Cnp</property>            	<!-- 39 -->
+		<property> aero/coefficient/Cnr</property>            	<!-- 40 -->
+		<property> aero/coefficient/Cnda</property>            	<!-- 41 -->
+		<property> aero/coefficient/Cndr</property>            	<!-- 42 -->
+	</output>
+	
+	<output name="c172_position.csv" rate="20" type="CSV">
+		<property> position/h-sl-ft </property>            			<!--  2 -->
+	    <property> position/h-sl-meters </property>            		<!--  3 -->
+		<property> position/h-agl-ft </property>            		<!--  4 -->
+		<property> position/lat-geod-rad </property>            	<!--  5 -->
+		<property> position/lat-geod-deg </property>            	<!--  6 -->
+		<property> position/geod-alt-ft </property>            		<!--  7 -->
+		<property> position/lat-gc-deg </property>					<!--  8 -->
+		<property> position/long-gc-deg </property>					<!--  9 -->
+		<property> position/terrain-elevation-asl-ft </property>	<!-- 10 -->
+		<property> position/distance-from-start-lon-mt </property>	<!-- 11 -->
+		<property> position/distance-from-start-lat-mt </property>	<!-- 12 -->
+		<property> position/distance-from-start-mag-mt </property>	<!-- 13 -->
+		<position> ON </position>
+	</output>
+	
+	<output name="c172_velocities.csv" rate="20" type="CSV">
+		<property> velocities/u-fps </property>            <!--  2 -->
+		<property> velocities/v-fps </property>            <!--  3 -->
+		<property> velocities/w-fps </property>            <!--  4 -->
+		<property> velocities/p-rad_sec </property>        <!--  5 -->
+		<property> velocities/q-rad_sec </property>        <!--  6 -->
+		<property> velocities/r-rad_sec </property>        <!--  7 -->
+		<property>velocities/p-aero-rad_sec</property>	   <!--  8 -->
+		<property>velocities/q-aero-rad_sec</property>	   <!--  9 -->
+		<property>velocities/r-aero-rad_sec</property>	   <!-- 10 -->
+		<property>velocities/phidot-rad_sec</property>	   <!-- 11 -->
+		<property>velocities/thetadot-rad_sec</property>   <!-- 12 -->
+    	<property>velocities/psidot-rad_sec</property>	   <!-- 13 -->
+		<property>velocities/u-aero-fps</property>		   <!-- 14 -->
+		<property>velocities/v-aero-fps</property>		   <!-- 15 -->
+		<property>velocities/w-aero-fps</property>		   <!-- 16 -->
+		<property>velocities/vc-fps</property>			   <!-- 17 -->
+		<property>velocities/vt-fps</property>			   <!-- 18 -->
+		<property>velocities/mach</property>			   <!-- 19 -->
+	</output>
+	
+	<output name="c172_accelerations.csv" rate="20" type="CSV">	
+		<property> accelerations/pdot-rad_sec2 </property>		<!--  2 -->
+		<property> accelerations/qdot-rad_sec2 </property>		<!--  3 -->
+		<property> accelerations/rdot-rad_sec2 </property>		<!--  4 -->
+		<property> accelerations/udot-ft_sec2 </property>		<!--  5 -->
+		<property> accelerations/vdot-ft_sec2 </property> 		<!--  6 -->
+		<property> accelerations/wdot-ft_sec2 </property> 		<!--  7 -->
+		<property> accelerations/a-pilot-x-ft_sec2 </property>  <!--  8 -->
+		<property> accelerations/a-pilot-y-ft_sec2 </property>  <!--  9 -->
+		<property> accelerations/a-pilot-z-ft_sec2 </property>  <!-- 10 -->
+		<property> accelerations/n-pilot-x-norm </property>		<!-- 11 -->
+		<property> accelerations/n-pilot-y-norm </property>		<!-- 12 -->
+		<property> accelerations/n-pilot-z-norm </property>		<!-- 13 -->
+	</output>
+		
+	<output name="c172_attitude.csv" rate="20" type="CSV">	
+		<property> attitude/phi-rad </property>            <!--  2 -->
+		<property> attitude/theta-rad </property>          <!--  3 -->
+		<property> attitude/psi-rad </property>            <!--  4 -->
+		<property>attitude/roll-rad </property>			   <!--  5 -->
+		<property>attitude/pitch-rad</property>			   <!--  6 -->
+		<property>attitude/heading-true-rad</property>	   <!--  7 -->
+	</output>	
+	
+<!--
+	<output name="c172_animation.csv" rate="60" type="CSV">
+	<property>position/lat-gc-deg</property>
+	<property>position/long-gc-deg</property>
+	<property>position/h-agl-ft</property>
+	<property>attitude/Phi</property>
+	<property>attitude/Theta</property>
+	<property>attitude/Psi</property>
+	<property>fcs/aileron-cmd-norm</property>
+	<property>fcs/elevator-cmd-norm</property>
+	<property>fcs/rudder-cmd-norm</property>
+	</output>
+-->
+
+	<output name="c172_propulsion.csv" rate="20" type="CSV">
+		<property>propulsion/tank/contents-lbs</property>						<!--  2 -->
+		<property>propulsion/tank[1]/contents-lbs</property>					<!--  3 -->
+		<property>propulsion/starter_cmd</property>								<!--  4 -->
+		<property>propulsion/magneto_cmd</property>								<!--  5 -->
+		<property>propulsion/active_engine</property>							<!--  6 -->
+		<property>propulsion/total-fuel-lbs</property>							<!--  7 -->
+		<property>propulsion/engine/pitch-angle-rad</property>					<!--  8 -->
+		<property>propulsion/engine/yaw-angle-rad</property>					<!--  9 -->
+		<property>propulsion/engine/advance-ratio</property>					<!-- 10 -->
+		<property>propulsion/engine/blade-angle</property>						<!-- 11 -->
+		<property>propulsion/engine/thrust-coefficient</property>				<!-- 12 -->
+		<property>propulsion/engine/propeller-rpm</property>					<!-- 13 -->
+		<property>propulsion/engine/helical-tip-Mach</property>					<!-- 14 -->
+		<property>propulsion/engine/constant-speed-mode</property>				<!-- 15 -->
+		<property>propulsion/engine/prop-induced-velocity_fps</property>		<!-- 16 -->
+		<property>propulsion/engine/thrust-lbs</property>						<!-- 17 -->
+		<property>propulsion/engine/fuel-flow-rate-pps</property>				<!-- 18 -->
+		<property>propulsion/engine/power-hp</property>							<!-- 19 -->
+		<property>propulsion/engine/bsfc-lbs_hphr</property>					<!-- 20 -->
+		<property>propulsion/engine/volumetric-efficiency</property>			<!-- 21 -->
+		<property>propulsion/engine/map-pa</property>							<!-- 22 -->
+		<property>propulsion/engine/map-inhg</property>							<!-- 23 -->
+		<property>propulsion/engine/air-intake-impedance-factor</property>		<!-- 24 -->
+		<property>propulsion/engine/ram-air-factor</property>					<!-- 25 -->
+		<property>propulsion/engine/boost-speed</property>						<!-- 26 -->
+		<property>fcs/throttle-cmd-norm</property>			   					<!-- 27 -->
+		<property>fcs/throttle-pos-norm</property>			   					<!-- 28 -->
+	</output>	
+		
+	
+	<output name="c172_standard.csv" rate="60" type="CSV">	
+		<position> ON </position>
+		<velocities> ON </velocities>
+		<rates> OFF </rates>
+		<fcs>ON</fcs>
+		
+	</output>
+	
+	
+	
 </fdm_config>
 
