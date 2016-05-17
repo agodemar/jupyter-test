@@ -1496,7 +1496,7 @@ State Report at sim time: 0.000000 seconds
 
 ---- JSBSim Execution beginning ... --------------------------------------------
 
-Start: Monday May 16 2016 18:55:14 (HH:MM:SS)
+Start: Tuesday May 17 2016 10:52:52 (HH:MM:SS)
   Full Trim
 
   Trim successful
@@ -1523,4 +1523,4 @@ Elevator doublet (Event 1) executed at time: 5.008313
     attitude/theta-rad = 0.020471
     attitude/psi-rad = 3.490648
 
-End: Monday May 16 2016 18:55:15 (HH:MM:SS)
+End: Tuesday May 17 2016 10:52:55 (HH:MM:SS)
