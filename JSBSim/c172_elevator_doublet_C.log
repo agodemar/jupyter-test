@@ -1512,7 +1512,7 @@ State Report at sim time: 0.000000 seconds
 
 ---- JSBSim Execution beginning ... --------------------------------------------
 
-Start: Tuesday May 17 2016 10:52:56 (HH:MM:SS)
+Start: Tuesday May 17 2016 20:50:16 (HH:MM:SS)
   Full Trim
 
   Trim successful
@@ -1545,4 +1545,4 @@ Trigger wing leveler (Event 2) executed at time: 30.008213
     velocities/q-rad_sec = 0.118511
     velocities/r-rad_sec = 0.078174
 
-End: Tuesday May 17 2016 10:52:58 (HH:MM:SS)
+End: Tuesday May 17 2016 20:50:17 (HH:MM:SS)

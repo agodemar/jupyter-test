@@ -57,6 +57,9 @@ import errno
 import fnmatch
 import os
 
+import lxml.etree as etree
+import re # regular expression module
+
 #----------------------------------------------------------
 def show_file_contents(fname, head=0, tail=0):
     # Display catalog file content
@@ -96,6 +99,18 @@ def move_files_to_folder(expr, folder):
             if os.path.isfile('{0}/{1}'.format(folder,file)):
                 os.remove('{0}/{1}'.format(folder,file))
             os.rename(file,'{0}/{1}'.format(folder,file))
+
+#----------------------------------------------------------
+#http://lxml.de/tutorial.html
+def pretty_print_from_file(fname, nodename):
+    tree = etree.parse(fname)
+    xmlstring0 = etree.tostring(tree.find(nodename), xml_declaration=False, pretty_print=True, encoding="unicode")
+    xmlstring1 = re.sub('\\sxmlns:xsi="[^"]+"', '', xmlstring0, count=1)
+    xmlstring = re.sub(r'^\s*$', '', xmlstring1)
+    
+    #print('')
+    #print(xmlstring)
+    print('\n'.join([line for line in xmlstring.split('\n') if line.strip()]))
 
 #----------------------------------------------------------
 def plot_Cmd_AngVel_EulerAng(data_fcs, data_velocities, data_attitude):
