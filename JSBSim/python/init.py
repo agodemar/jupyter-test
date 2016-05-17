@@ -108,9 +108,10 @@ def pretty_print_from_file(fname, nodename):
     xmlstring1 = re.sub('\\sxmlns:xsi="[^"]+"', '', xmlstring0, count=1)
     xmlstring = re.sub(r'^\s*$', '', xmlstring1)
     
-    #print('')
+    print('')
     #print(xmlstring)
     print('\n'.join([line for line in xmlstring.split('\n') if line.strip()]))
+    print('')
 
 #----------------------------------------------------------
 def plot_Cmd_AngVel_EulerAng(data_fcs, data_velocities, data_attitude):

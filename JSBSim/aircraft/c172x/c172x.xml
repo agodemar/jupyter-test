@@ -1287,6 +1287,8 @@
 		<property>fcs/right-aileron-pos-norm </property>	   <!-- 20 -->
 		<property>fcs/throttle-cmd-norm</property>			   <!-- 21 -->
 		<property>fcs/throttle-pos-norm</property>			   <!-- 22 -->
+		<property>fcs/pitch-trim-cmd-norm</property>           <!-- 23 -->
+        <property>fcs/pitch-trim-sum</property>			       <!-- 24 -->
 	</output>
 	
 	<output name="c172_forces.csv" rate="20" type="CSV">

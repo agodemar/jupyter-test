@@ -1240,8 +1240,8 @@ Use this model for development purposes ONLY!!!
 Script: "C172 elevator doublet"
   begins at 0.0000 seconds and runs to 60.0082 seconds with dt = 0.008333 (121.000000 Hz)
 
-Local property: notify-time-trigger = 0.000000
 Local property: run_id = 1.000000
+Local property: notify-time-trigger = 0.000000
 Event 0 (Trim):
   When first triggered, executes once  if all of the following are true: {
     sim-time-sec gt 0.500000
@@ -1299,6 +1299,8 @@ Event 1 (Elevator doublet):
       - right-aileron-pos-norm
       - throttle-cmd-norm
       - throttle-pos-norm
+      - pitch-trim-cmd-norm
+      - pitch-trim-sum
     Properties logged:
       - fbx-aero-lbs
       - fby-aero-lbs
@@ -1496,7 +1498,7 @@ State Report at sim time: 0.000000 seconds
 
 ---- JSBSim Execution beginning ... --------------------------------------------
 
-Start: Tuesday May 17 2016 20:50:14 (HH:MM:SS)
+Start: Wednesday May 18 2016 00:51:40 (HH:MM:SS)
   Full Trim
 
   Trim successful
@@ -1523,4 +1525,4 @@ Elevator doublet (Event 1) executed at time: 5.008313
     attitude/theta-rad = 0.020471
     attitude/psi-rad = 3.490648
 
-End: Tuesday May 17 2016 20:50:15 (HH:MM:SS)
+End: Wednesday May 18 2016 00:51:43 (HH:MM:SS)
