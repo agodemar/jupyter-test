@@ -18,6 +18,7 @@ import h5py
 from sympy import *
 
 from IPython.display import display, Math, Latex, SVG
+from IPython.display import Image
 
 from cycler import cycler
 

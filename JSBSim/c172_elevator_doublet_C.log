@@ -1240,8 +1240,8 @@ Use this model for development purposes ONLY!!!
 Script: "C172 elevator doublet"
   begins at 0.0000 seconds and runs to 60.0082 seconds with dt = 0.008333 (121.000000 Hz)
 
-Local property: notify-time-trigger = 0.000000
 Local property: run_id = 1.000000
+Local property: notify-time-trigger = 0.000000
 Event 0 (Trim):
   When first triggered, executes once  if all of the following are true: {
     sim-time-sec gt 0.500000
@@ -1514,7 +1514,7 @@ State Report at sim time: 0.000000 seconds
 
 ---- JSBSim Execution beginning ... --------------------------------------------
 
-Start: Wednesday May 18 2016 15:23:40 (HH:MM:SS)
+Start: Wednesday May 18 2016 16:07:48 (HH:MM:SS)
   Full Trim
 
   Trim successful
@@ -1547,4 +1547,4 @@ Trigger wing leveler (Event 2) executed at time: 30.008213
     velocities/q-rad_sec = 0.118511
     velocities/r-rad_sec = 0.078174
 
-End: Wednesday May 18 2016 15:23:42 (HH:MM:SS)
+End: Wednesday May 18 2016 16:07:50 (HH:MM:SS)
