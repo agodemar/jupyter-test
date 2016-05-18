@@ -1,0 +1,7 @@
+https://github.com/Zverik/svg-resize
+
+Resize svg images:
+
+> python svg-resize.py -x 260 -f c172_fcs_WEB.svg
+
+> python svg-resize.py -x 260 -f ac_sideview_elevator_WEB.svg
