@@ -1479,7 +1479,7 @@ State Report at sim time: 0.000000 seconds
 
 ---- JSBSim Execution beginning ... --------------------------------------------
 
-Start: Wednesday May 18 2016 10:16:38 (HH:MM:SS)
+Start: Wednesday May 18 2016 15:23:34 (HH:MM:SS)
   Full Trim
 
   Trim successful
@@ -1498,4 +1498,4 @@ Trim (Event 0) executed at time: 0.508331
     attitude/theta-rad = 0.020437
     attitude/psi-rad = 3.490659
 
-End: Wednesday May 18 2016 10:16:40 (HH:MM:SS)
+End: Wednesday May 18 2016 15:23:35 (HH:MM:SS)
